@@ -1,6 +1,15 @@
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
+require 'cucumber/rake/task'
 
-RSpec::Core::RakeTask.new(:spec)
+desc "Run RSpec code examples (options: RSPEC_SEED=seed)"
+RSpec::Core::RakeTask.new :spec do |task|
+  task.rspec_opts = "--format progress --order random"
+  task.rspec_opts << " --seed #{ENV['RSPEC_SEED']}" if ENV['RSPEC_SEED']
+end
 
-task :default => :spec
+Cucumber::Rake::Task.new(:features, "Run Cucumber features") do |task|
+  task.cucumber_opts = %w[--profile build]
+end
+
+task :default => [:spec, :features]
