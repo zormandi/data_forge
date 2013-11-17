@@ -3,8 +3,13 @@ When(/^DataForge is run with the "(.*?)" argument$/) do |argument|
 end
 
 
-Then(/^the result should be success$/) do
-  result_code.should eq(0), "The script run should have been successful, but wasn't"
+When(/^the command script is executed$/) do
+  execute_command_script
+end
+
+
+Then(/^the process should exit successfully$/) do
+  result_code.should eq(0), "Expected script exit code to be 0, but received #{result_code}"
 end
 
 

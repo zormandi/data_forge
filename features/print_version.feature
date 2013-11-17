@@ -4,7 +4,7 @@ Feature: Print version information
 
   Scenario: Success
     When DataForge is run with the "--version" argument
-    Then the result should be success
+    Then the process should exit successfully
     And the output should contain:
     """
     DataForge, version 0.0.1
