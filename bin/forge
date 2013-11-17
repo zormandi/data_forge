@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
 require 'data_forge'
+
+puts "DataForge, version #{DataForge::VERSION}"
