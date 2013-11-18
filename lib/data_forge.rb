@@ -1,5 +1,8 @@
+require "data_forge/application"
 require "data_forge/version"
 
 module DataForge
-  # Your code goes here...
+  def self.application
+    @application ||= Application.new
+  end
 end

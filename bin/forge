@@ -2,24 +2,4 @@
 
 require 'data_forge'
 
-usage_information = <<-USAGE
-Usage: forge [--help|--version|command script file]
-
-forge --help           Prints this page.
-forge --version        Prints version information.
-forge command_file.rb  Executes instructions in command_file.rb.
-USAGE
-
-unless ARGV.count == 1
-  $stderr.puts (ARGV.empty?) ? "ERROR: no command file specified\n\n" : "ERROR: executing more than one command file is currently not supported\n\n"
-  $stderr.puts usage_information
-  exit false
-end
-
-case ARGV[0]
-  when "--help"
-    puts usage_information
-  when "--version"
-    puts "DataForge, version #{DataForge::VERSION}"
-  else
-end
+DataForge.application.run ARGV
