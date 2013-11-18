@@ -6,6 +6,7 @@ module DataForge
 
       def transform(source, target, &transformation_block)
         @source_fields = source.fields.keys
+        @target_fields = target.fields.keys
         CSV.open "#{target.name.to_s}.csv", "w:UTF-8", { write_headers: true, headers: target.fields.keys } do |target_file|
           @target_file = target_file
           transform_input_file source.name, &transformation_block
@@ -25,6 +26,16 @@ module DataForge
           self.instance_exec @record, &transformation_block
         end
       end
+
+
+
+      def output(record)
+        @target_file << record.
+          keep_if { |key| @target_fields.include? key }.
+          sort_by { |field, _| @target_fields.index(field) }.
+          map { |item| item[1] }
+      end
+
 
     end
   end

@@ -1,8 +1,8 @@
-@wip
-Feature: Copy file with "empty" transformation
+Feature: Copy file without any transformation
 
   If two file definitions are identical (or the target file's fields are a subset of the source files fields)
   then a transformation which does nothing but simply output every record makes an exact copy of the source file.
+
 
   Scenario: Copy file
     Given the following command script:
@@ -19,7 +19,7 @@ Feature: Copy file with "empty" transformation
       field :category, String
     end
 
-    transform :items => :item_copy do |record|
+    transform :items => :items_copy do |record|
       output record
     end
     """
@@ -31,7 +31,7 @@ Feature: Copy file with "empty" transformation
     """
     When the command script is executed
     Then the process should exit successfully
-    And there should be an "item_copy.csv" file containing:
+    And there should be an "items_copy.csv" file containing:
     """
     id,name,category
     1,Item 1,Category 1
