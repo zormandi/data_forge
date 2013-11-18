@@ -16,4 +16,18 @@ describe DataForge::Context do
     end
   end
 
+
+  describe "#file_descriptor_by_name" do
+    it "should return nil if no descriptor was registered by that name" do
+      context.file_descriptor_by_name(:name).should be_nil
+    end
+
+    it "should return the file descriptor whose name was specified" do
+      context.register_file_descriptor(:name) { field :test, String }
+
+      context.file_descriptor_by_name(:name).should be_a DataForge::FileDescriptor
+      context.file_descriptor_by_name(:name).fields.should == { test: String }
+    end
+  end
+
 end
