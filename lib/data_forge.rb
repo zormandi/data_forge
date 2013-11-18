@@ -1,8 +1,23 @@
 require "data_forge/application"
+require "data_forge/context"
+require "data_forge/dsl"
+require "data_forge/file_descriptor"
 require "data_forge/version"
 
 module DataForge
-  def self.application
-    @application ||= Application.new
+  class << self
+
+    def application
+      @application ||= Application.new
+    end
+
+
+
+    def context
+      @context ||= Context.new
+    end
+
   end
 end
+
+self.extend DataForge::DSL
