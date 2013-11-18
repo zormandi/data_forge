@@ -20,9 +20,8 @@ Feature: A transformation without an 'output' call creates an empty file
     """
     And an "items.csv" file containing:
     """
-    id,name,category
-    1,Item 1,Category 1
-    2,Item 2,Category 2
+    id
+    1
     """
     When the command script is executed
     Then the process should exit successfully
