@@ -1,6 +1,7 @@
 Feature: Print version information
 
-  Invoking the `forge` command with the --version option prints the version information.
+  Invoking the `forge` command with the --version switch prints the version information.
+
 
   Scenario: Success
     When DataForge is run with the "--version" argument
