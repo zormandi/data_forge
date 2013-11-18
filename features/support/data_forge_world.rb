@@ -49,4 +49,12 @@ class DataForgeWorld
     @result_code = status.exitstatus
   end
 
+
+
+  def script_output
+    "Output: #{@output}\n"\
+    "Error: #{@error_output}\n"\
+    "Exit status: #{@result_code}\n"
+  end
+
 end
