@@ -11,7 +11,7 @@ module DataForge
       source = DataForge.context.file_descriptor_by_name file_descriptor_names.keys.first
       target = DataForge.context.file_descriptor_by_name file_descriptor_names.values.first
 
-      DataForge::Transform::DataTransformer.new.transform source, target, &block
+      DataForge::Transform::FileTransformer.new.transform source, target, &block
     end
 
   end

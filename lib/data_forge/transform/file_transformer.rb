@@ -2,7 +2,7 @@ require 'csv'
 
 module DataForge
   module Transform
-    class DataTransformer
+    class FileTransformer
 
       def transform(source, target, &transformation_block)
         @source_fields = source.fields.keys

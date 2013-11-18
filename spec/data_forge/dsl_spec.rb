@@ -17,7 +17,7 @@ describe DataForge::DSL do
   describe "#transform" do
     it "should create a DataTransformer and call it with the appropriate file descriptors" do
       transformer = double "DataTransformer"
-      DataForge::Transform::DataTransformer.stub new: transformer
+      DataForge::Transform::FileTransformer.stub new: transformer
       source = double "Source FileDescriptor"
       DataForge.context.stub(:file_descriptor_by_name).with(:source).and_return(source)
       target = double "Target FileDescriptor"
