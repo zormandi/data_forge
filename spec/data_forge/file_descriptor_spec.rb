@@ -21,11 +21,11 @@ describe DataForge::FileDescriptor do
 
 
   describe "#fields" do
-    it "should return an empty Hash if no fields are set" do
+    it "should return an empty Hash if no fields are defined" do
       file_descriptor.fields.should == {}
     end
 
-    it "should return the fields and types that were set as a Hash" do
+    it "should return the fields and types (as a Hash) that are defined" do
       file_descriptor.field :field1, String
       file_descriptor.field :field2, Fixnum
 
@@ -33,4 +33,16 @@ describe DataForge::FileDescriptor do
     end
   end
 
+  describe "#field_names" do
+    it "should return an empty array if no fields are defined" do
+      file_descriptor.field_names.should == []
+    end
+
+    it "should return the names of the fields that were defined" do
+      file_descriptor.field :field1, String
+      file_descriptor.field :field2, Fixnum
+
+      file_descriptor.field_names.should == [:field1, :field2]
+    end
+  end
 end

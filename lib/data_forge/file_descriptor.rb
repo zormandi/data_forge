@@ -16,5 +16,11 @@ module DataForge
       @fields[name] = type
     end
 
+
+
+    def field_names
+      @fields.keys
+    end
+
   end
 end

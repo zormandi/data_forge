@@ -5,9 +5,9 @@ module DataForge
     class FileTransformer
 
       def transform(source, target, &transformation_block)
-        @source_fields = source.fields.keys
-        @target_fields = target.fields.keys
-        CSV.open "#{target.name.to_s}.csv", "w:UTF-8", { write_headers: true, headers: target.fields.keys } do |target_file|
+        @source_fields = source.field_names
+        @target_fields = target.field_names
+        CSV.open "#{target.name.to_s}.csv", "w:UTF-8", { write_headers: true, headers: @target_fields } do |target_file|
           @target_file = target_file
           transform_input_file source.name, &transformation_block
         end
