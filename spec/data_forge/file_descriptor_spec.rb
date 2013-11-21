@@ -33,6 +33,7 @@ describe DataForge::FileDescriptor do
     end
   end
 
+
   describe "#field_names" do
     it "should return an empty array if no fields are defined" do
       file_descriptor.field_names.should == []
@@ -45,4 +46,5 @@ describe DataForge::FileDescriptor do
       file_descriptor.field_names.should == [:field1, :field2]
     end
   end
+
 end
