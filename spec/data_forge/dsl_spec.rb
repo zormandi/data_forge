@@ -15,15 +15,16 @@ describe DataForge::DSL do
 
 
   describe "#transform" do
-    it "should create a DataTransformer and call it with the appropriate file descriptors" do
-      transformer = double "DataTransformer"
-      DataForge::Transform::FileTransformer.stub new: transformer
-      source = double "Source FileDescriptor"
-      DataForge.context.stub(:file_descriptor_by_name).with(:source).and_return(source)
-      target = double "Target FileDescriptor"
-      DataForge.context.stub(:file_descriptor_by_name).with(:target).and_return(target)
+    it "should raise an error if not called with a non-empty Hash parameter" do
+      expect { dsl_object.transform "file" }.to raise_error ArgumentError, DataForge::DSL::ERROR_TRANSFORM_INVALID_PARAMS
+      expect { dsl_object.transform({}) }.to raise_error ArgumentError, DataForge::DSL::ERROR_TRANSFORM_INVALID_PARAMS
+    end
 
-      transformer.should_receive(:transform).with(source, target, &block)
+    it "should create a file transformer and call it with the appropriate file descriptor names" do
+      transformer = double "DataTransformer"
+      DataForge::Transform::FileTransformer.stub(:new).with(DataForge.context).and_return(transformer)
+
+      transformer.should_receive(:transform_between_descriptors).with(:source, :target, &block)
 
       dsl_object.transform :source => :target, &block
     end

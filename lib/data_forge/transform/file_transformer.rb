@@ -4,6 +4,20 @@ module DataForge
   module Transform
     class FileTransformer
 
+      def initialize(context)
+        @context = context
+      end
+
+
+
+      def transform_between_descriptors(source_descriptor_name, target_descriptor_name, &transformation_block)
+        source = @context.file_descriptor_by_name source_descriptor_name
+        target = @context.file_descriptor_by_name target_descriptor_name
+        transform source, target, &transformation_block
+      end
+
+
+
       def transform(source, target, &transformation_block)
         @source_fields = source.field_names
         @target_fields = target.field_names
