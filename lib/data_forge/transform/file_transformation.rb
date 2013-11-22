@@ -6,6 +6,8 @@ module DataForge
 
       attr_accessor :context, :source_descriptor_name, :target_descriptor_name
 
+      include DataForge::Transform::CSVWriter
+
 
 
       def execute(&block)
@@ -28,7 +30,7 @@ module DataForge
       def transform(source, target, &transformation_block)
         @source_fields = source.field_names
         @target_fields = target.field_names
-        CSV.open "#{target.name.to_s}.csv", "w:UTF-8", { write_headers: true, headers: @target_fields } do |target_file|
+        write_csv_file target do |target_file|
           @target_file = target_file
           transform_input_file source.name, &transformation_block
         end
@@ -49,10 +51,7 @@ module DataForge
 
 
       def output(record)
-        @target_file << record.
-          keep_if { |key| @target_fields.include? key }.
-          sort_by { |field, _| @target_fields.index(field) }.
-          map { |item| item[1] }
+        output_record_to_file record, @target_fields, @target_file
       end
 
     end
