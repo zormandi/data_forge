@@ -18,4 +18,11 @@ describe DataForge::Transform::CSVReader do
     end
   end
 
+
+  describe "#csv_record_from_row" do
+    it "should return a Hash with the specified fields as keys and the take the values from the given row" do
+      csv_reader.csv_record_from_row([1, 2, 3], [:a, :b, :c]).should == { a: 1, b: 2, c: 3 }
+    end
+  end
+
 end

@@ -9,6 +9,12 @@ module DataForge
         end
       end
 
+
+
+      def csv_record_from_row(row, fields)
+        Hash[fields.zip row]
+      end
+
     end
   end
 end
