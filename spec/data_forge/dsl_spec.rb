@@ -20,16 +20,14 @@ describe DataForge::DSL do
     end
 
     it "should create a file transformation and execute it" do
-      transformation = DataForge::Transform::FileTransformation.new
+      transformation = DataForge::Transform::FileTransformation.new "context"
       DataForge::Transform::FileTransformation.stub new: transformation
 
+      transformation.should_receive(:source_descriptor_name=).with(:source)
+      transformation.should_receive(:target_descriptor_name=).with(:target)
       transformation.should_receive(:execute).with(&block)
 
       dsl_object.transform :source => :target, &block
-
-      transformation.context.should == DataForge.context
-      transformation.source_descriptor_name.should == :source
-      transformation.target_descriptor_name.should == :target
     end
   end
 

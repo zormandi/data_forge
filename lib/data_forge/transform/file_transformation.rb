@@ -1,18 +1,35 @@
-require 'csv'
-
 module DataForge
   module Transform
     class FileTransformation
 
-      attr_accessor :context, :source_descriptor_name, :target_descriptor_name
-
+      include DataForge::Transform::CSVReader
       include DataForge::Transform::CSVWriter
 
 
 
-      def execute(&block)
+      def initialize(context)
+        @context = context
+      end
+
+
+
+      def source_descriptor_name=(descriptor_name)
+        @source_descriptor = @context.file_descriptor_by_name descriptor_name
+        @source_fields = @source_descriptor.field_names
+      end
+
+
+
+      def target_descriptor_name=(descriptor_name)
+        @target_descriptor = @context.file_descriptor_by_name descriptor_name
+        @target_fields = @target_descriptor.field_names
+      end
+
+
+
+      def execute(&transformation_block)
         validate_parameters
-        transform @context.file_descriptor_by_name(source_descriptor_name), @context.file_descriptor_by_name(target_descriptor_name), &block
+        transform &transformation_block
       end
 
 
@@ -20,29 +37,23 @@ module DataForge
       private
 
       def validate_parameters
-        raise "Missing context for transformation" if context.nil?
-        raise "Missing source descriptor for transformation" if source_descriptor_name.nil?
-        raise "Missing target descriptor for transformation" if target_descriptor_name.nil?
+        raise "Missing source descriptor for transformation" if @source_descriptor.nil?
+        raise "Missing target descriptor for transformation" if @target_descriptor.nil?
       end
 
 
 
-      def transform(source, target, &transformation_block)
-        @source_fields = source.field_names
-        @target_fields = target.field_names
-        write_csv_file target do |target_file|
+      def transform(&transformation_block)
+        write_csv_file @target_descriptor do |target_file|
           @target_file = target_file
-          transform_input_file source.name, &transformation_block
+          transform_source &transformation_block
         end
       end
 
 
 
-      def transform_input_file(input_file_name, &transformation_block)
-        line_number = 0
-        CSV.foreach "#{input_file_name.to_s}.csv", { return_headers: false } do |row|
-          next if 1 == (line_number += 1)
-
+      def transform_source(&transformation_block)
+        read_csv_file_by_line @source_descriptor do |row|
           @record = Hash[@source_fields.zip row]
           self.instance_exec @record, &transformation_block
         end
