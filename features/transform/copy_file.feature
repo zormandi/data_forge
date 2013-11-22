@@ -8,15 +8,15 @@ Feature: Copy file without any transformation
     Given the following command script:
     """
     file :items do
-      field :id, String
-      field :name, String
-      field :category, String
+      field :id
+      field :name
+      field :category
     end
 
     file :items_copy do
-      field :id, String
-      field :name, String
-      field :category, String
+      field :id
+      field :name
+      field :category
     end
 
     transform :items => :items_copy do |record|

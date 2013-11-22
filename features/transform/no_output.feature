@@ -8,11 +8,11 @@ Feature: A transformation without an 'output' call creates an empty file
     Given the following command script:
     """
     file :items do
-      field :id, String
+      field :id
     end
 
     file :items_copy do
-      field :id, String
+      field :id
     end
 
     transform :items => :items_copy do |record|
