@@ -16,7 +16,7 @@ describe DataForge::DSL do
 
   describe "#transform" do
     it "should raise an error if not called with a Hash parameter" do
-      expect { dsl_object.transform "file" }.to raise_error "Invalid arguments for `transform` block"
+      expect { dsl_object.transform "file" }.to raise_error "Invalid argument for `transform` block"
     end
 
     it "should create a file transformation and execute it" do

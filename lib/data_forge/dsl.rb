@@ -8,7 +8,7 @@ module DataForge
 
 
     def transform(file_descriptor_names, &block)
-      raise "Invalid arguments for `transform` block" unless file_descriptor_names.is_a? Hash
+      raise "Invalid argument for `transform` block" unless file_descriptor_names.is_a? Hash
 
       DataForge::Transform::FileTransformation.new(DataForge.context).tap do |transformation|
         transformation.source_descriptor_name = file_descriptor_names.keys.first
