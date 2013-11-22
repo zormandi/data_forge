@@ -6,16 +6,16 @@ describe DataForge::Transform::CSVWriter do
   let(:csv_writer) { Object.new.tap { |object| object.extend DataForge::Transform::CSVWriter } }
 
   describe "#write_csv_file" do
-    it "should open a CSV file for writing, yield it to a block and close it" do
+    it "should open a CSV file for writing and pass it the specified block" do
+      block = lambda {}
       file_descriptor = DataForge::FileDescriptor.new :test
       file_descriptor.field :field1
       file_descriptor.field :field2
 
       CSV.should_receive(:open).with("test.csv", "w:UTF-8", { write_headers: true,
-                                                              headers: [:field1, :field2] }).and_return csv_file
-      csv_file.should_receive :close
+                                                              headers: [:field1, :field2] }, &block)
 
-      expect { |block| csv_writer.write_csv_file(file_descriptor, &block) }.to yield_with_args(csv_file)
+      csv_writer.write_csv_file file_descriptor, &block
     end
   end
 
