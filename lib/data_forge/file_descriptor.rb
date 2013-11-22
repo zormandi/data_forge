@@ -12,7 +12,7 @@ module DataForge
 
 
 
-    def field(name, type)
+    def field(name, type = String)
       @fields[name] = type
     end
 

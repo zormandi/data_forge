@@ -17,6 +17,14 @@ describe DataForge::FileDescriptor do
 
       file_descriptor.fields.should == { field1: String }
     end
+
+    context "when called without a type" do
+      it "should define a String field" do
+        file_descriptor.field :field1
+
+        file_descriptor.fields.should == { field1: String }
+      end
+    end
   end
 
 
