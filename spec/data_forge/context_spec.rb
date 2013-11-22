@@ -18,8 +18,8 @@ describe DataForge::Context do
 
 
   describe "#file_descriptor_by_name" do
-    it "should return nil if no descriptor was registered by that name" do
-      context.file_descriptor_by_name(:name).should be_nil
+    it "should raise an error if a file descriptor with the specified name wasn't registered yet" do
+      expect { context.file_descriptor_by_name :name }.to raise_error "Unknown file 'name'"
     end
 
     it "should return the file descriptor whose name was specified" do

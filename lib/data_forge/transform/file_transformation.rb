@@ -2,18 +2,25 @@ require 'csv'
 
 module DataForge
   module Transform
-    class FileTransformer
+    class FileTransformation
 
-      def initialize(context)
-        @context = context
+      attr_accessor :context, :source_descriptor_name, :target_descriptor_name
+
+
+
+      def execute(&block)
+        validate_parameters
+        transform @context.file_descriptor_by_name(source_descriptor_name), @context.file_descriptor_by_name(target_descriptor_name), &block
       end
 
 
 
-      def transform_between_descriptors(source_descriptor_name, target_descriptor_name, &transformation_block)
-        source = @context.file_descriptor_by_name source_descriptor_name
-        target = @context.file_descriptor_by_name target_descriptor_name
-        transform source, target, &transformation_block
+      private
+
+      def validate_parameters
+        raise "Missing context for transformation" if context.nil?
+        raise "Missing source descriptor for transformation" if source_descriptor_name.nil?
+        raise "Missing target descriptor for transformation" if target_descriptor_name.nil?
       end
 
 
@@ -28,8 +35,6 @@ module DataForge
       end
 
 
-
-      private
 
       def transform_input_file(input_file_name, &transformation_block)
         line_number = 0
@@ -49,7 +54,6 @@ module DataForge
           sort_by { |field, _| @target_fields.index(field) }.
           map { |item| item[1] }
       end
-
 
     end
   end

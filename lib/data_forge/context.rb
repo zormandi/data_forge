@@ -15,7 +15,7 @@ module DataForge
 
 
     def file_descriptor_by_name(name)
-      @file_descriptors[name]
+      @file_descriptors[name] or raise "Unknown file '#{name}'"
     end
 
   end

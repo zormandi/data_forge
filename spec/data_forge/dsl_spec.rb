@@ -15,18 +15,21 @@ describe DataForge::DSL do
 
 
   describe "#transform" do
-    it "should raise an error if not called with a non-empty Hash parameter" do
-      expect { dsl_object.transform "file" }.to raise_error ArgumentError, DataForge::DSL::ERROR_TRANSFORM_INVALID_PARAMS
-      expect { dsl_object.transform({}) }.to raise_error ArgumentError, DataForge::DSL::ERROR_TRANSFORM_INVALID_PARAMS
+    it "should raise an error if not called with a Hash parameter" do
+      expect { dsl_object.transform "file" }.to raise_error "Invalid arguments for `transform` block"
     end
 
-    it "should create a file transformer and call it with the appropriate file descriptor names" do
-      transformer = double "DataTransformer"
-      DataForge::Transform::FileTransformer.stub(:new).with(DataForge.context).and_return(transformer)
+    it "should create a file transformation and execute it" do
+      transformation = DataForge::Transform::FileTransformation.new
+      DataForge::Transform::FileTransformation.stub new: transformation
 
-      transformer.should_receive(:transform_between_descriptors).with(:source, :target, &block)
+      transformation.should_receive(:execute).with(&block)
 
       dsl_object.transform :source => :target, &block
+
+      transformation.context.should == DataForge.context
+      transformation.source_descriptor_name.should == :source
+      transformation.target_descriptor_name.should == :target
     end
   end
 
