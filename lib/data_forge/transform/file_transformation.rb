@@ -45,7 +45,7 @@ module DataForge
 
       def transform(&transformation_block)
         write_csv_file @target_descriptor do |target_file|
-          @target_file = target_file
+          @transformation_context = DataForge::Transform::TransformationContext.new self, target_file, @target_fields
           transform_source &transformation_block
         end
       end
@@ -54,15 +54,9 @@ module DataForge
 
       def transform_source(&transformation_block)
         read_csv_file_by_line @source_descriptor do |row|
-          @record = Hash[@source_fields.zip row]
-          self.instance_exec @record, &transformation_block
+          record = Hash[@source_fields.zip row]
+          @transformation_context.instance_exec record, &transformation_block
         end
-      end
-
-
-
-      def output(record)
-        output_record_to_file record, @target_fields, @target_file
       end
 
     end

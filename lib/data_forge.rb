@@ -7,6 +7,7 @@ require "data_forge/file_descriptor"
 require "data_forge/transform/csv_reader"
 require "data_forge/transform/csv_writer"
 require "data_forge/transform/file_transformation"
+require "data_forge/transform/transformation_context"
 require "data_forge/version"
 
 module DataForge
