@@ -55,4 +55,41 @@ describe DataForge::FileDescriptor do
     end
   end
 
+
+  describe "attributes" do
+    { delimiter: ",",
+      quote: '"',
+      escape: '"',
+      encoding: "UTF-8"}.each do |attribute_name, default_value|
+
+      describe "#{attribute_name}" do
+        it "should return or set the attribute value" do
+          file_descriptor.send attribute_name, "new value"
+
+          file_descriptor.send(attribute_name).should == "new value"
+        end
+
+        context "when not overridden" do
+          it "should return the default value of the attribute" do
+            file_descriptor.send(attribute_name).should == default_value
+          end
+        end
+      end
+
+    end
+  end
+
+
+  describe "#separator" do
+    it "should be an alias for #delimiter" do
+      file_descriptor.separator.should == ","
+
+      file_descriptor.delimiter ";"
+      file_descriptor.separator.should == ";"
+
+      file_descriptor.separator "|"
+      file_descriptor.delimiter.should == "|"
+    end
+  end
+
 end

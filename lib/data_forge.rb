@@ -1,6 +1,7 @@
 require 'csv'
 
 require "data_forge/application"
+require "data_forge/attribute_dsl"
 require "data_forge/context"
 require "data_forge/dsl"
 require "data_forge/file_descriptor"
