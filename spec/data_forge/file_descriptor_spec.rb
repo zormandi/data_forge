@@ -47,7 +47,7 @@ describe DataForge::FileDescriptor do
       file_descriptor.field_names.should == []
     end
 
-    it "should return the names of the fields that were defined" do
+    it "should return the names of the fields that are defined" do
       file_descriptor.field :field1, String
       file_descriptor.field :field2, Fixnum
 
