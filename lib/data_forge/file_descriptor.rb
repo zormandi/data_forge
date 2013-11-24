@@ -8,7 +8,6 @@ module DataForge
     attr_reader :name, :fields
     define_attribute :delimiter
     define_attribute :quote
-    define_attribute :escape
     define_attribute :encoding
 
     alias :separator :delimiter
@@ -20,7 +19,6 @@ module DataForge
       @fields = {}
       @delimiter = ","
       @quote = '"'
-      @escape = '"'
       @encoding = "UTF-8"
     end
 

@@ -7,10 +7,17 @@ describe DataForge::Transform::CSVReader do
 
   describe "#read_csv_file_by_line" do
     it "should open a CSV file for reading, skip its first row and iterate through the rest" do
-      file_descriptor = DataForge::FileDescriptor.new :test
       block = lambda {}
+      file_descriptor = double "FileDescriptor",
+                               name: :test,
+                               delimiter: "delimiter",
+                               quote: "quote",
+                               encoding: "encoding"
 
-      CSV.should_receive(:open).with("test.csv", { return_headers: false }).and_yield csv_file
+      CSV.should_receive(:open).with("test.csv", { col_sep: "delimiter",
+                                                   quote_char: "quote",
+                                                   encoding: "encoding",
+                                                   return_headers: false }).and_yield csv_file
       csv_file.should_receive :shift
       csv_file.should_receive(:each).with(&block)
 

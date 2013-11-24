@@ -59,7 +59,6 @@ describe DataForge::FileDescriptor do
   describe "attributes" do
     { delimiter: ",",
       quote: '"',
-      escape: '"',
       encoding: "UTF-8"}.each do |attribute_name, default_value|
 
       describe "#{attribute_name}" do
