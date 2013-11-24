@@ -8,12 +8,18 @@ describe DataForge::Transform::CSVWriter do
   describe "#write_csv_file" do
     it "should open a CSV file for writing and pass it the specified block" do
       block = lambda {}
-      file_descriptor = DataForge::FileDescriptor.new :test
-      file_descriptor.field :field1
-      file_descriptor.field :field2
+      file_descriptor = double "FileDescriptor",
+                               name: :test,
+                               delimiter: "delimiter",
+                               quote: "quote",
+                               encoding: "encoding",
+                               field_names: [:field1, :field2]
 
-      CSV.should_receive(:open).with("test.csv", "w:UTF-8", { write_headers: true,
-                                                              headers: [:field1, :field2] }, &block)
+      CSV.should_receive(:open).with("test.csv", "w", { col_sep: "delimiter",
+                                                        quote_char: "quote",
+                                                        encoding: "encoding",
+                                                        write_headers: true,
+                                                        headers: [:field1, :field2] }, &block)
 
       csv_writer.write_csv_file file_descriptor, &block
     end

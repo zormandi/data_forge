@@ -3,8 +3,11 @@ module DataForge
     module CSVWriter
 
       def write_csv_file(file_descriptor, &block)
-        CSV.open "#{file_descriptor.name.to_s}.csv", "w:UTF-8", { write_headers: true,
-                                                                  headers: file_descriptor.field_names }, &block
+        CSV.open "#{file_descriptor.name.to_s}.csv", "w", { col_sep: file_descriptor.delimiter,
+                                                            quote_char: file_descriptor.quote,
+                                                            encoding: file_descriptor.encoding,
+                                                            write_headers: true,
+                                                            headers: file_descriptor.field_names }, &block
       end
 
 
