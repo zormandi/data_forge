@@ -26,8 +26,8 @@ class DataForgeWorld
 
 
 
-  def read_file(file_name)
-    File.read File.join(@working_directory, file_name)
+  def read_file(file_name, encoding = "UTF-8")
+    File.read File.join(@working_directory, file_name), encoding: encoding
   end
 
 
