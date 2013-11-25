@@ -36,7 +36,8 @@ Feature: Transforming the record
     TM-234,second product,Group,Subgroup
     """
     When the command script is executed
-    Then there should be a "transformed_products.csv" file containing:
+    Then the process should exit successfully
+    And there should be a "transformed_products.csv" file containing:
     """
     item,title,category
     IE-123,FIRST PRODUCT,Main category > Subcategory
