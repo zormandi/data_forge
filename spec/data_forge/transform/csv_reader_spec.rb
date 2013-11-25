@@ -6,14 +6,15 @@ describe DataForge::Transform::CSVReader do
   let(:csv_reader) { Object.new.tap { |object| object.extend DataForge::Transform::CSVReader } }
 
   describe "#read_csv_file_by_line" do
-    it "should open a CSV file for reading, skip its first row and iterate through the rest" do
-      block = lambda {}
-      file_descriptor = double "FileDescriptor",
-                               name: :test,
-                               delimiter: "delimiter",
-                               quote: "quote",
-                               encoding: "encoding"
+    let(:file_descriptor) { double "FileDescriptor",
+                                   name: :test,
+                                   delimiter: "delimiter",
+                                   quote: "quote",
+                                   encoding: "encoding",
+                                   has_header: true }
+    let(:block) { lambda {} }
 
+    it "should open a CSV file for reading, skip its first row and iterate through the rest" do
       CSV.should_receive(:open).with("test.csv", { col_sep: "delimiter",
                                                    quote_char: "quote",
                                                    encoding: "encoding",
@@ -21,7 +22,19 @@ describe DataForge::Transform::CSVReader do
       csv_file.should_receive :shift
       csv_file.should_receive(:each).with(&block)
 
-      csv_reader.read_csv_file_by_line(file_descriptor, &block)
+      csv_reader.read_csv_file_by_line file_descriptor, &block
+    end
+
+    context "when the file has no header" do
+      it "should not skip the first row" do
+        file_descriptor.stub has_header: false
+        CSV.stub(:open).and_yield csv_file
+
+        csv_file.should_not_receive :shift
+        csv_file.should_receive(:each).with(&block)
+
+        csv_reader.read_csv_file_by_line file_descriptor, &block
+      end
     end
   end
 

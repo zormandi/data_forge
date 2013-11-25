@@ -9,6 +9,7 @@ module DataForge
     define_attribute :delimiter
     define_attribute :quote
     define_attribute :encoding
+    define_attribute :has_header
 
     alias :separator :delimiter
 
@@ -20,6 +21,7 @@ module DataForge
       @delimiter = ","
       @quote = '"'
       @encoding = "UTF-8"
+      @has_header = true
     end
 
 

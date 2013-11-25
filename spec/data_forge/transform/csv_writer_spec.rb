@@ -6,14 +6,16 @@ describe DataForge::Transform::CSVWriter do
   let(:csv_writer) { Object.new.tap { |object| object.extend DataForge::Transform::CSVWriter } }
 
   describe "#write_csv_file" do
+    let(:file_descriptor) { double "FileDescriptor",
+                                   name: :test,
+                                   delimiter: "delimiter",
+                                   quote: "quote",
+                                   encoding: "encoding",
+                                   has_header: true,
+                                   field_names: [:field1, :field2] }
+
     it "should open a CSV file for writing and pass it the specified block" do
       block = lambda {}
-      file_descriptor = double "FileDescriptor",
-                               name: :test,
-                               delimiter: "delimiter",
-                               quote: "quote",
-                               encoding: "encoding",
-                               field_names: [:field1, :field2]
 
       CSV.should_receive(:open).with("test.csv", "w", { col_sep: "delimiter",
                                                         quote_char: "quote",
@@ -22,6 +24,19 @@ describe DataForge::Transform::CSVWriter do
                                                         headers: [:field1, :field2] }, &block)
 
       csv_writer.write_csv_file file_descriptor, &block
+    end
+
+    context "when the file has no header" do
+      it "should open a CSV file with no header row" do
+        file_descriptor.stub has_header: false
+
+        CSV.should_receive(:open).with("test.csv", "w", { col_sep: "delimiter",
+                                                          quote_char: "quote",
+                                                          encoding: "encoding",
+                                                          write_headers: false })
+
+        csv_writer.write_csv_file file_descriptor
+      end
     end
   end
 
