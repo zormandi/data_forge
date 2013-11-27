@@ -12,7 +12,7 @@ module DataForge
 
       DataForge::Transform::FileTransformation.new(DataForge.context).tap do |transformation|
         transformation.source_descriptor_name = file_descriptor_names.keys.first
-        transformation.target_descriptor_name = file_descriptor_names.values.first
+        transformation.target_descriptor_names = file_descriptor_names.values.first
       end.execute(&block)
     end
 

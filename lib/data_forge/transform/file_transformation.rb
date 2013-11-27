@@ -20,9 +20,9 @@ module DataForge
 
 
 
-      def target_descriptor_name=(descriptor_name)
-        @target_descriptor = @context.file_descriptor_by_name descriptor_name
-        @target_fields = @target_descriptor.field_names
+      def target_descriptor_names=(descriptor_names)
+        descriptor_names = *descriptor_names
+        @target_descriptors = descriptor_names.map { |name| @context.file_descriptor_by_name name }
       end
 
 
@@ -37,15 +37,15 @@ module DataForge
       private
 
       def validate_parameters
-        raise "Missing source descriptor for transformation" if @source_descriptor.nil?
-        raise "Missing target descriptor for transformation" if @target_descriptor.nil?
+        raise "Missing source file descriptor for transformation" if @source_descriptor.nil?
+        raise "Missing target file descriptor for transformation" if @target_descriptors.nil? or @target_descriptors.empty?
       end
 
 
 
       def transform(&transformation_block)
-        write_csv_file @target_descriptor do |target_file|
-          @transformation_context = DataForge::Transform::TransformationContext.new self, target_file, @target_fields
+        write_csv_file @target_descriptors do |target_files|
+          @transformation_context = DataForge::Transform::TransformationContext.new self, @target_descriptors, target_files
           transform_source &transformation_block
         end
       end

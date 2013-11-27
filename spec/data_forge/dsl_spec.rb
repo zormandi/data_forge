@@ -24,7 +24,7 @@ describe DataForge::DSL do
       DataForge::Transform::FileTransformation.stub new: transformation
 
       transformation.should_receive(:source_descriptor_name=).with(:source)
-      transformation.should_receive(:target_descriptor_name=).with(:target)
+      transformation.should_receive(:target_descriptor_names=).with(:target)
       transformation.should_receive(:execute).with(&block)
 
       dsl_object.transform :source => :target, &block

@@ -1,4 +1,3 @@
-@wip
 Feature: Splitting a file into multiple files
 
   The `transform` block can take multiple output file parameters, in which case the `output` command can be used
@@ -21,9 +20,9 @@ Feature: Splitting a file into multiple files
     end
 
     transform :items => [:items_not_a, :items_not_b] do |record|
-      if record[:name].start_with "a"
+      if record[:name].start_with? "a"
         output record, to: :items_not_b
-      elsif record[:name].start_with "b"
+      elsif record[:name].start_with? "b"
         output record, to: :items_not_a
       else
         output record, to: [:items_not_a, :items_not_b]
