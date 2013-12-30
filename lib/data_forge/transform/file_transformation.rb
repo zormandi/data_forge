@@ -3,7 +3,7 @@ module DataForge
     class FileTransformation
 
       include DataForge::Transform::CSVReader
-      include DataForge::Transform::CSVWriter
+      include DataForge::Transform::CSVBulkWriter
 
 
 
@@ -44,8 +44,8 @@ module DataForge
 
 
       def transform(&transformation_block)
-        write_csv_file @target_descriptors do |target_files|
-          @transformation_context = DataForge::Transform::TransformationContext.new self, @target_descriptors, target_files
+        write_csv_files @target_descriptors do |target_files|
+          @transformation_context = DataForge::Transform::TransformationContext.new @target_descriptors, target_files
           transform_source &transformation_block
         end
       end

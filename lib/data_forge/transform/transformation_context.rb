@@ -2,18 +2,16 @@ module DataForge
   module Transform
     class TransformationContext
 
-      def initialize(transformation, target_descriptors, target_files)
-        @transformation = transformation
+      def initialize(target_descriptors, target_files)
         descriptor_names = target_descriptors.map { |descriptor| descriptor.name }
         @target_files = Hash[descriptor_names.zip target_files]
-        @target_fields = Hash[descriptor_names.zip target_descriptors.map { |descriptor| descriptor.field_names }]
       end
 
 
 
       def output(record, options = {})
         target_descriptor_names_for(options).each do |descriptor_name|
-          @transformation.output_record_to_file record, @target_fields[descriptor_name], @target_files[descriptor_name]
+          @target_files[descriptor_name].output_record record
         end
       end
 
