@@ -16,12 +16,24 @@ describe DataForge::DSL do
 
   describe "#transform" do
     it "should create a file transformation and execute it" do
-      transformation = DataForge::Transform::FileTransformation.new "context"
+      transformation = double "file transformation"
 
       allow(DataForge::Transform::FileTransformationFactory).to receive(:create).with(:source).and_return(transformation)
-      transformation.should_receive(:execute).with(&block)
+      expect(transformation).to receive(:execute).with(&block)
 
       dsl_object.transform :source, &block
+    end
+  end
+
+
+  describe "#deduplicate" do
+    it "should create a deduplication transformation and execute it" do
+      deduplication = double "deduplication"
+      allow(DataForge::Transform::Deduplication).to receive(:create).with(:items, into: :unique_items, using: :item_id).and_return(deduplication)
+
+      expect(deduplication).to receive(:execute)
+
+      dsl_object.deduplicate :items, into: :unique_items, using: :item_id
     end
   end
 

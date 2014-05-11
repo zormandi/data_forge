@@ -11,5 +11,10 @@ module DataForge
       DataForge::Transform::FileTransformationFactory.create(file_descriptor_names).execute(&block)
     end
 
+
+    def deduplicate(source, options)
+      DataForge::Transform::Deduplication.create(source, options).execute
+    end
+
   end
 end
