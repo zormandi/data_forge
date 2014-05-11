@@ -8,17 +8,7 @@ module DataForge
 
 
     def transform(file_descriptor_names, &block)
-      raise "Invalid source-target setting for `transform` block" unless file_descriptor_names.is_a? Hash or file_descriptor_names.is_a? Symbol
-
-      DataForge::Transform::FileTransformation.new(DataForge.context).tap do |transformation|
-        if file_descriptor_names.is_a? Hash
-          transformation.source_descriptor_name = file_descriptor_names.keys.first
-          transformation.target_descriptor_names = file_descriptor_names.values.first
-        else
-          transformation.source_descriptor_name = file_descriptor_names
-          transformation.target_descriptor_names = file_descriptor_names
-        end
-      end.execute(&block)
+      DataForge::Transform::FileTransformationFactory.create(file_descriptor_names).execute(&block)
     end
 
   end

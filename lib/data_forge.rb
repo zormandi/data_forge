@@ -10,6 +10,7 @@ require "data_forge/transform/csv_file_writer"
 require "data_forge/transform/csv_reader"
 require "data_forge/transform/csv_bulk_writer"
 require "data_forge/transform/file_transformation"
+require "data_forge/transform/file_transformation_factory"
 require "data_forge/transform/transformation_context"
 require "data_forge/version"
 
