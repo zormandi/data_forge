@@ -15,37 +15,13 @@ describe DataForge::DSL do
 
 
   describe "#transform" do
-    it "should raise an error if not called with an invalid parameter" do
-      expect { dsl_object.transform "file" }.to raise_error "Invalid source-target setting for `transform` block"
-    end
+    it "should create a file transformation and execute it" do
+      transformation = DataForge::Transform::FileTransformation.new "context"
 
+      allow(DataForge::Transform::FileTransformationFactory).to receive(:create).with(:source).and_return(transformation)
+      transformation.should_receive(:execute).with(&block)
 
-    context "when called with valid arguments" do
-
-      let(:transformation) { DataForge::Transform::FileTransformation.new "context" }
-      before do
-          DataForge::Transform::FileTransformation.stub new: transformation
-      end
-
-      context "when called with a Hash" do
-        it "should create a file transformation with the specified source and target(s) and execute it" do
-          transformation.should_receive(:source_descriptor_name=).with(:source)
-          transformation.should_receive(:target_descriptor_names=).with(:target)
-          transformation.should_receive(:execute).with(&block)
-
-          dsl_object.transform :source => :target, &block
-        end
-      end
-
-      context "when called with a Symbol" do
-        it "should use the specified source as the target for the transformation" do
-          transformation.should_receive(:source_descriptor_name=).with(:source)
-          transformation.should_receive(:target_descriptor_names=).with(:source)
-          transformation.should_receive(:execute).with(&block)
-
-          dsl_object.transform :source, &block
-        end
-      end
+      dsl_object.transform :source, &block
     end
   end
 
