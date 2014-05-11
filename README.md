@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/zormandi/data_forge.svg)](https://travis-ci.org/zormandi/data_forge)
+
 # DataForge
 
 DataForge is a data manipulation tool for transferring (and transforming) data between flat files and databases.
