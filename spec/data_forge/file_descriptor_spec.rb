@@ -60,7 +60,7 @@ describe DataForge::FileDescriptor do
     { delimiter: ",",
       quote: '"',
       encoding: "UTF-8",
-      has_header: true }.each do |attribute_name, default_value|
+      has_header_row: true }.each do |attribute_name, default_value|
 
       describe "#{attribute_name}" do
         it "should return or set the attribute value" do

@@ -7,7 +7,7 @@ module DataForge
                                                       quote_char: file_descriptor.quote,
                                                       encoding: file_descriptor.encoding,
                                                       return_headers: false} do |csv_file|
-          csv_file.shift if file_descriptor.has_header
+          csv_file.shift if file_descriptor.has_header_row
           while row = csv_file.shift
             block.call Hash[file_descriptor.field_names.zip row]
           end

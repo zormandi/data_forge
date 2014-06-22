@@ -45,7 +45,7 @@ module DataForge
                     encoding: @file_descriptor.encoding,
                     write_headers: false }
 
-        options.merge!(write_headers: true, headers: @file_descriptor.field_names) if @file_descriptor.has_header
+        options.merge!(write_headers: true, headers: @file_descriptor.field_names) if @file_descriptor.has_header_row
         options
       end
 

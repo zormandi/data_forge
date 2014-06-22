@@ -12,7 +12,7 @@ describe DataForge::Transform::CSVReader do
                                    delimiter: "delimiter",
                                    quote: "quote",
                                    encoding: "encoding",
-                                   has_header: true }
+                                   has_header_row: true }
     let(:block) { lambda {} }
 
     context "when the file has a header" do
@@ -34,7 +34,7 @@ describe DataForge::Transform::CSVReader do
       it "should not skip the first row" do
         records = []
         allow(CSV).to receive(:open).and_yield csv_file
-        allow(file_descriptor).to receive(:has_header).and_return(false)
+        allow(file_descriptor).to receive(:has_header_row).and_return(false)
         allow(csv_file).to receive(:shift).and_return([1, 2], [3, 4], nil)
 
         csv_reader.read_records_from_csv_file(file_descriptor) { |record| records << record }

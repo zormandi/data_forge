@@ -1,4 +1,4 @@
- 'spec_helper'
+require 'spec_helper'
 
 describe DataForge::Transform::CSVFileWriter do
 
@@ -8,7 +8,7 @@ describe DataForge::Transform::CSVFileWriter do
       file_descriptor.delimiter "delimiter"
       file_descriptor.quote "quote"
       file_descriptor.encoding "encoding"
-      file_descriptor.has_header true
+      file_descriptor.has_header_row true
       file_descriptor.field :field1
       file_descriptor.field :field2
       file_descriptor.field :field3
@@ -47,7 +47,7 @@ describe DataForge::Transform::CSVFileWriter do
 
     context "when a file has no header" do
       it "should open a CSV file with no header row" do
-        file_descriptor.has_header false
+        file_descriptor.has_header_row false
 
         CSV.should_receive(:open).with(anything, "w", { col_sep: "delimiter",
                                                         quote_char: "quote",
