@@ -4,9 +4,6 @@ Feature: Print version information
 
 
   Scenario: Success
-    When DataForge is run with the "--version" argument
-    Then the process should exit successfully
-    And the output should contain:
-    """
-    DataForge, version 0.0.1
-    """
+    When I run `forge --version`
+    Then the exit status should be 0
+    And the stdout should contain "DataForge, version 0.0.1"

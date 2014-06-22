@@ -5,9 +5,9 @@ Feature: Print usage information
 
 
   Scenario: Invoked with no arguments
-    When DataForge is run with no argument
-    Then the process should exit with an error
-    And the error message should contain:
+    When I run `forge`
+    Then the exit status should be 1
+    And the stderr should contain:
     """
     ERROR: no command file specified
 
@@ -20,9 +20,9 @@ Feature: Print usage information
 
 
   Scenario: Invoked with more than one argument
-    When DataForge is run with the "one two" arguments
-    Then the process should exit with an error
-    And the error message should contain:
+    When I run `forge one two`
+    Then the exit status should be 1
+    And the stderr should contain:
     """
     ERROR: executing more than one command file is currently not supported
 
@@ -35,9 +35,9 @@ Feature: Print usage information
 
 
   Scenario: Invoked with the --help switch
-    When DataForge is run with the "--help" argument
-    Then the process should exit successfully
-    And the output should contain:
+    When I run `forge --help`
+    Then the exit status should be 0
+    And the stdout should contain:
     """
     Usage: forge [--help|--version|command script file]
 
