@@ -3,7 +3,7 @@ module DataForge
     class FileTransformation
 
       include DataForge::Transform::CSVReader
-      include DataForge::Transform::CSVBulkWriter
+      include DataForge::Transform::CSVWriter
 
 
 
@@ -53,8 +53,8 @@ module DataForge
 
 
       def transform_source(&transformation_block)
-        read_csv_file_by_line @source_descriptor do |row|
-          @transformation_context.instance_exec csv_record_from_row(row, @source_fields), &transformation_block
+        read_records_from_csv_file @source_descriptor do |record|
+          @transformation_context.instance_exec record, &transformation_block
         end
       end
 

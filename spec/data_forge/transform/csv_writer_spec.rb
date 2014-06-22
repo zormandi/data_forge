@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 module DataForge::Transform
-  describe CSVBulkWriter do
+  describe CSVWriter do
 
-    let(:csv_bulk_writer) { Object.new.tap { |object| object.extend CSVBulkWriter } }
+    let(:csv_writer) { Object.new.tap { |object| object.extend CSVWriter } }
 
     describe "#write_csv_file" do
       let(:file_descriptor1) { "FileDescriptor1" }
@@ -23,7 +23,7 @@ module DataForge::Transform
         file2.should_receive :close
 
         expect do |block|
-          csv_bulk_writer.write_csv_files [file_descriptor1, file_descriptor2], &block
+          csv_writer.write_csv_files [file_descriptor1, file_descriptor2], &block
         end.
           to yield_with_args [file1, file2]
       end
@@ -36,7 +36,7 @@ module DataForge::Transform
           file2.should_receive :close
 
           expect do
-            csv_bulk_writer.write_csv_files([file_descriptor1, file_descriptor2]) { raise "test error" }
+            csv_writer.write_csv_files([file_descriptor1, file_descriptor2]) { raise "test error" }
           end.
             to raise_error "test error"
         end

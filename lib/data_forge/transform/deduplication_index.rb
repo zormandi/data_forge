@@ -9,14 +9,13 @@ module DataForge
 
 
 
-      def has?(record)
-        @fingerprints.include? fingerprint_of record
-      end
+      def add_new?(record)
+        fingerprint = fingerprint_of record
 
+        return false if @fingerprints.include? fingerprint
 
-
-      def add(record)
-        @fingerprints.add fingerprint_of record
+        @fingerprints.add fingerprint
+        true
       end
 
 
