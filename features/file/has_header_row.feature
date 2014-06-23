@@ -8,7 +8,7 @@ Feature: File `has_header` option
 
 
   Scenario: Using the has_header option
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       has_header_row true
@@ -39,19 +39,24 @@ Feature: File `has_header` option
       output record
     end
     """
-    And an "items.csv" file containing:
+    And a file named "items.csv" with:
     """
     id,name
     1,data
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be an "items_without_header.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And the following files should exist:
+      | items_without_header.csv |
+      | items_copy.csv           |
+    And the file "items_without_header.csv" should contain exactly:
     """
     1,data
+
     """
-    And there should be an "items_copy.csv" file containing:
+    And the file "items_copy.csv" should contain exactly:
     """
     id,name
     1,data
+
     """

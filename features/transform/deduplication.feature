@@ -1,10 +1,8 @@
 Feature: Deduplicating data in a file
 
 
-
-
   Scenario: Singe file transformation
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       field :rownum
@@ -19,7 +17,7 @@ Feature: Deduplicating data in a file
 
     deduplicate :items, into: :unique_items, using: :item_id
     """
-    And an "items.csv" file containing:
+    And a file named "items.csv" with:
     """
     rownum,item_id,item_name
     1,Item1,Item name 1
@@ -28,12 +26,14 @@ Feature: Deduplicating data in a file
     4,Item2,Item name 2
     5,Item3,Item name 3
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be a "unique_items.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And a file named "unique_items.csv" should exist
+    And the file "unique_items.csv" should contain exactly:
     """
     item_id,item_name
     Item1,Item name 1
     Item2,Item name 2
     Item3,Item name 3
+
     """

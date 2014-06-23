@@ -6,7 +6,7 @@ Feature: Overwriting the original file with a transformation
 
 
   Scenario:
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       field :name
@@ -17,19 +17,21 @@ Feature: Overwriting the original file with a transformation
       output record
     end
     """
-    And an "items.csv" file containing:
+    And a file named "items.csv" with:
     """
     name
     ab
     cd
     ef
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be an "items.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And a file named "items.csv" should exist
+    And the file "items.csv" should contain exactly:
     """
     name
     a
     c
     e
+
     """

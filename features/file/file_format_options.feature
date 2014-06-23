@@ -10,7 +10,7 @@ Feature: Formatting options for CSV files
 
 
   Scenario: Using the default delimiter and quote character
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       field :id
@@ -28,22 +28,24 @@ Feature: Formatting options for CSV files
       output record
     end
     """
-    And an "items.csv" file containing:
+    And a file named "items.csv" with:
     """
     id,name,category
     1,"27"" screen",Screens
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be an "items_copy.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And a file named "items_copy.csv" should exist
+    And the file "items_copy.csv" should contain exactly:
     """
     id,name,category
     1,"27"" screen",Screens
+
     """
 
 
   Scenario: Using custom delimiter and quote character
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       delimiter ";"
@@ -67,24 +69,26 @@ Feature: Formatting options for CSV files
       output record
     end
     """
-    And an "items.csv" file containing:
+    And a file named "items.csv" with:
     """
     id;name;category
     1;'27'' screen';Screens
     2;24` screen;Screens
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be an "items_copy.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And a file named "items_copy.csv" should exist
+    And the file "items_copy.csv" should contain exactly:
     """
     id|name|category
     1|27' screen|Screens
     2|`24`` screen`|Screens
+
     """
 
 
   Scenario: Using custom encoding
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       encoding "UTF-8"
@@ -118,20 +122,25 @@ Feature: Formatting options for CSV files
       output record
     end
     """
-    And an "items.csv" file containing:
+    And a file named "items.csv" with:
     """
     id,name,category
     1,Képernyő,Screens
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be an "ISO-8859-2" encoded "items_latin2.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And the following files should exist:
+      | items_latin2.csv |
+      | items_copy.csv   |
+    And the file "items_latin2.csv" should contain in "ISO-8859-2" encoding exactly:
     """
     id,name,category
     1,Képernyő,Screens
+
     """
-    And there should be a "UTF-8" encoded "items_copy.csv" file containing:
+    And the file "items_copy.csv" should contain in "UTF-8" encoding exactly:
     """
     id,name,category
     1,Képernyő,Screens
+
     """

@@ -6,7 +6,7 @@ Feature: Using the `output` command
 
 
   Background:
-    Given an "items.csv" file containing:
+    Given a file named "items.csv" with:
     """
     id
     1
@@ -16,7 +16,7 @@ Feature: Using the `output` command
 
 
   Scenario: Outputting arbitrary data as Hash
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       field :id
@@ -32,19 +32,21 @@ Feature: Using the `output` command
              author: "Author #{record[:id]}"
     end
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be an "books.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And a file named "books.csv" should exist
+    And the file "books.csv" should contain exactly:
     """
     author,title
     Author 1,Title 1
     Author 2,Title 2
     Author 3,Title 3
+
     """
 
 
   Scenario: No output in transform block creates empty file
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       field :id
@@ -56,15 +58,14 @@ Feature: Using the `output` command
 
     transform :items => :items_empty do end
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be an "items_empty.csv" file containing:
-    """
-    """
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And a file named "items_empty.csv" should exist
+    And the file "items_empty.csv" should be empty
 
 
   Scenario: Omitting output conditionally skips current record
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       field :id
@@ -78,18 +79,20 @@ Feature: Using the `output` command
       output record unless "2" == record[:id]
     end
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be a "items_missing.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And a file named "items_missing.csv" should exist
+    And the file "items_missing.csv" should contain exactly:
     """
     id
     1
     3
+
     """
 
 
   Scenario: Multiple output commands multiply lines
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       field :id
@@ -104,9 +107,10 @@ Feature: Using the `output` command
       output record
     end
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be a "items_doubled.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And a file named "items_doubled.csv" should exist
+    And the file "items_doubled.csv" should contain exactly:
     """
     id
     1
@@ -115,4 +119,5 @@ Feature: Using the `output` command
     2
     3
     3
+
     """

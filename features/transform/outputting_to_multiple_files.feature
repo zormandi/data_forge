@@ -5,7 +5,7 @@ Feature: Splitting a file into multiple files
 
 
   Scenario:
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :items do
       field :name
@@ -29,24 +29,29 @@ Feature: Splitting a file into multiple files
       end
     end
     """
-    And an "items.csv" file containing:
+    And a file named "items.csv" with:
     """
     name
     a
     b
     c
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be an "items_not_a.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And the following files should exist:
+      | items_not_a.csv |
+      | items_not_b.csv |
+    And the file "items_not_a.csv" should contain exactly:
     """
     name
     b
     c
+
     """
-    And there should be an "items_not_b.csv" file containing:
+    And the file "items_not_b.csv" should contain exactly:
     """
     name
     a
     c
+
     """

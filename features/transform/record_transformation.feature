@@ -7,7 +7,7 @@ Feature: Transforming the record
 
 
   Scenario: Using the record as a Hash
-    Given the following command script:
+    Given a file named "command_script.rb" with:
     """
     file :products do
       field :id
@@ -29,17 +29,19 @@ Feature: Transforming the record
       output record
     end
     """
-    And a "products.csv" file containing:
+    And a file named "products.csv" with:
     """
     id,name,main_category,subcategory
     IE-123,first product,Main category,Subcategory
     TM-234,second product,Group,Subgroup
     """
-    When the command script is executed
-    Then the process should exit successfully
-    And there should be a "transformed_products.csv" file containing:
+    When I run `forge command_script.rb`
+    Then the exit status should be 0
+    And a file named "transformed_products.csv" should exist
+    And the file "transformed_products.csv" should contain exactly:
     """
     item,title,category
     IE-123,FIRST PRODUCT,Main category > Subcategory
     TM-234,SECOND PRODUCT,Group > Subgroup
+
     """
