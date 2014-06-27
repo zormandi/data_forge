@@ -18,7 +18,7 @@ module DataForge
             @_writers_hash[target_writer_name].write record
           end
         else
-          raise "Missing target file name for `output` command in multiple file transformation" if @_writers_hash.count > 1
+          raise "Missing :to directive for `output` command in multiple file transformation" if @_writers_hash.count > 1
           @_default_writer.write record
         end
       end

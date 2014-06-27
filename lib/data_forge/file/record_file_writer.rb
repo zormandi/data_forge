@@ -7,7 +7,12 @@ module DataForge
       end
 
 
+
       # Interface definition
+
+      attr_reader :definition, :fields, :name
+
+
 
       def open
       end
