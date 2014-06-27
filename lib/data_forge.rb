@@ -1,14 +1,13 @@
 require 'tmpdir'
 require 'csv'
 
-require "data_forge/application"
-# require 'data_forge/attribute_dsl'
-require "data_forge/dsl"
-require "data_forge/version"
+require 'data_forge/version'
 
 module DataForge
 
   autoload :AttributeDSL, 'data_forge/attribute_dsl'
+  autoload :Application, 'data_forge/application'
+  autoload :DSL, 'data_forge/dsl'
   autoload :File, 'data_forge/file'
   autoload :Transformation, 'data_forge/transformation'
 
