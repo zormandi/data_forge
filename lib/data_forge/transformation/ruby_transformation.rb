@@ -5,7 +5,7 @@ module DataForge
       class << self
         def from_input(source, options, &block)
           if options.has_key? :into
-            targets = *options[:into]
+            targets = Array(options[:into])
           else
             targets = [source]
           end
