@@ -54,4 +54,24 @@ describe DataForge::Transformation::Deduplication do
     end
   end
 
+
+  describe "#execute" do
+    subject { described_class.new reader, writer, [:f1, :f2] }
+
+    let(:writer) { mock_writer }
+    let(:reader) { stub_reader_with_records [{f1: "a", f2: "b", f3: "c"},
+                                             {f1: "a", f2: "b", f3: "c"},
+                                             {f1: "a", f2: "b", f3: "d"},
+                                             {f1: "a", f2: "e", f3: "c"},
+                                             {f1: "f", f2: "b", f3: "c"}] }
+
+    it "should write only the first instance of each source record to the writer" do
+      expect(writer).to receive(:write).with(f1: "a", f2: "b", f3: "c").once
+      expect(writer).to receive(:write).with(f1: "a", f2: "e", f3: "c")
+      expect(writer).to receive(:write).with(f1: "f", f2: "b", f3: "c")
+
+      subject.execute
+    end
+  end
+
 end
