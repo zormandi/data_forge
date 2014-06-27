@@ -3,11 +3,11 @@ module DataForge
     class RubyTransformation < TransformationBase
 
       class << self
-        def from_input(source, options, &block)
-          targets = (options.has_key? :into) ? Array(options[:into]) : [source]
-          writers = targets.map { |target| File.writer_for target }
+        def from_input(source_name, options, &block)
+          reader = File.reader_for source_name
+          writers = Array(options.fetch :into, source_name).map { |target_name| File.writer_for target_name }
 
-          new File.reader_for(source), writers, &block
+          new reader, writers, &block
         end
       end
 
