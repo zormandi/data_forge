@@ -7,7 +7,7 @@ describe DataForge::DSL do
 
   describe "#file" do
     it "should register a file descriptor" do
-      DataForge.context.should_receive(:register_file_descriptor).with(:name, &block)
+      expect(DataForge::File).to receive(:register_file_definition).with(:name) { |&blk| expect(blk).to be block }
 
       dsl_object.file :name, &block
     end
@@ -16,20 +16,22 @@ describe DataForge::DSL do
 
   describe "#transform" do
     it "should create a file transformation and execute it" do
-      transformation = double "file transformation"
+      transformation = instance_double "DataForge::Transformation::RubyTransformation"
 
-      allow(DataForge::Transform::FileTransformationFactory).to receive(:create).with(:source).and_return(transformation)
-      expect(transformation).to receive(:execute).with(&block)
+      allow(DataForge::Transformation::RubyTransformation).to receive(:from_input)
+                                                              .with(:source, into: :target) { |&blk| expect(blk).to be block }
+                                                              .and_return(transformation)
+      expect(transformation).to receive(:execute)
 
-      dsl_object.transform :source, &block
+      dsl_object.transform :source, into: :target, &block
     end
   end
 
 
   describe "#deduplicate" do
     it "should create a deduplication transformation and execute it" do
-      deduplication = double "deduplication"
-      allow(DataForge::Transform::Deduplication).to receive(:create).with(:items, into: :unique_items, using: :item_id).and_return(deduplication)
+      deduplication = instance_double "DataForge::Transformation::Deduplication"
+      allow(DataForge::Transformation::Deduplication).to receive(:from_input).with(:items, into: :unique_items, using: :item_id).and_return(deduplication)
 
       expect(deduplication).to receive(:execute)
 

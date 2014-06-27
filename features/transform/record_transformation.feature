@@ -22,7 +22,7 @@ Feature: Transforming the record
       field :category
     end
 
-    transform :products => :transformed_products do |record|
+    transform :products, into: :transformed_products do |record|
       record[:item] = record[:id]
       record[:title] = record[:name].upcase
       record[:category] = [record[:main_category], record[:subcategory]].join " > "

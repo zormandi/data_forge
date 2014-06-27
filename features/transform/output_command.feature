@@ -27,7 +27,7 @@ Feature: Using the `output` command
       field :title
     end
 
-    transform :items => :books do |record|
+    transform :items, into: :books do |record|
       output title: "Title #{record[:id]}",
              author: "Author #{record[:id]}"
     end
@@ -56,7 +56,7 @@ Feature: Using the `output` command
       field :id
     end
 
-    transform :items => :items_empty do end
+    transform :items, into: :items_empty do end
     """
     When I run `forge command_script.rb`
     Then the exit status should be 0
@@ -75,7 +75,7 @@ Feature: Using the `output` command
       field :id
     end
 
-    transform :items => :items_missing do |record|
+    transform :items, into: :items_missing do |record|
       output record unless "2" == record[:id]
     end
     """
@@ -102,7 +102,7 @@ Feature: Using the `output` command
       field :id
     end
 
-    transform :items => :items_doubled do |record|
+    transform :items, into: :items_doubled do |record|
       output record
       output record
     end

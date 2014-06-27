@@ -47,7 +47,7 @@ module DataForge
 
 
     def validate_file_exists(command_file)
-      unless File.exists? command_file
+      unless ::File.exists? command_file
         $stderr.puts "ERROR: File '#{command_file}' does not exist"
         exit false
       end

@@ -2,18 +2,19 @@ module DataForge
   module DSL
 
     def file(name, &initialization_block)
-      DataForge.context.register_file_descriptor name, &initialization_block
+      File.register_file_definition name, &initialization_block
     end
 
 
 
-    def transform(file_descriptor_names, &block)
-      DataForge::Transform::FileTransformationFactory.create(file_descriptor_names).execute(&block)
+    def transform(source, options = {}, &block)
+      Transformation::RubyTransformation.from_input(source, options, &block).execute
     end
 
 
-    def deduplicate(source, options)
-      DataForge::Transform::Deduplication.create(source, options).execute
+
+    def deduplicate(source, options = {})
+      Transformation::Deduplication.from_input(source, options).execute
     end
 
   end

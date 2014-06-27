@@ -19,7 +19,7 @@ Feature: Splitting a file into multiple files
       field :name
     end
 
-    transform :items => [:items_not_a, :items_not_b] do |record|
+    transform :items, into: [:items_not_a, :items_not_b] do |record|
       if record[:name].start_with? "a"
         output record, to: :items_not_b
       elsif record[:name].start_with? "b"

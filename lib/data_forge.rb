@@ -2,31 +2,21 @@ require 'tmpdir'
 require 'csv'
 
 require "data_forge/application"
-require "data_forge/attribute_dsl"
-require "data_forge/context"
+# require 'data_forge/attribute_dsl'
 require "data_forge/dsl"
-require "data_forge/file_descriptor"
-require "data_forge/transform/csv_file_writer"
-require "data_forge/transform/csv_reader"
-require "data_forge/transform/csv_writer"
-require "data_forge/transform/file_transformation"
-require "data_forge/transform/deduplication_index"
-require "data_forge/transform/deduplication"
-require "data_forge/transform/file_transformation_factory"
-require "data_forge/transform/transformation_context"
 require "data_forge/version"
 
 module DataForge
+
+  autoload :AttributeDSL, 'data_forge/attribute_dsl'
+  autoload :File, 'data_forge/file'
+  autoload :Transformation, 'data_forge/transformation'
+
+
   class << self
 
     def application
       @application ||= Application.new
-    end
-
-
-
-    def context
-      @context ||= Context.new
     end
 
   end

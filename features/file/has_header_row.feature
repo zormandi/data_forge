@@ -31,11 +31,11 @@ Feature: File `has_header` option
       field :name
     end
 
-    transform :items => :items_without_header do |record|
+    transform :items, into: :items_without_header do |record|
       output record
     end
 
-    transform :items_without_header => :items_copy do |record|
+    transform :items_without_header, into: :items_copy do |record|
       output record
     end
     """

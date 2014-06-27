@@ -24,7 +24,7 @@ Feature: Formatting options for CSV files
       field :category
     end
 
-    transform :items => :items_copy do |record|
+    transform :items, into: :items_copy do |record|
       output record
     end
     """
@@ -65,7 +65,7 @@ Feature: Formatting options for CSV files
       field :category
     end
 
-    transform :items => :items_copy do |record|
+    transform :items, into: :items_copy do |record|
       output record
     end
     """
@@ -114,11 +114,11 @@ Feature: Formatting options for CSV files
       field :category
     end
 
-    transform :items => :items_latin2 do |record|
+    transform :items, into: :items_latin2 do |record|
       output record
     end
 
-    transform :items_latin2 => :items_copy do |record|
+    transform :items_latin2, into: :items_copy do |record|
       output record
     end
     """
