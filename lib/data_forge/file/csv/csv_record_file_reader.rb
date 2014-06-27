@@ -3,12 +3,14 @@ module DataForge
     module CSV
       class CSVRecordFileReader
 
-        attr_reader :definition
+        attr_reader :definition, :name, :fields
 
 
 
         def initialize(definition)
           @definition = definition
+          @name = definition.name
+          @fields = definition.field_names
         end
 
 

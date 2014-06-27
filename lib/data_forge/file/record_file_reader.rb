@@ -10,6 +10,10 @@ module DataForge
 
       # Interface definition
 
+      attr_reader :definition, :fields, :name
+
+
+
       def each_record(&block)
       end
 

@@ -3,7 +3,7 @@ module DataForge
     module CSV
       class CSVRecordFileWriter
 
-        attr_reader :definition, :fields, :name
+        attr_reader :definition, :name, :fields
 
 
 

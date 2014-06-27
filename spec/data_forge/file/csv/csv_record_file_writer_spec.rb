@@ -27,16 +27,16 @@ describe DataForge::File::CSV::CSVRecordFileWriter do
   end
 
 
-  describe "#fields" do
-    it "should return the file definition's fields" do
-      expect(subject.fields).to eq [:field1, :field2, :field3]
+  describe "#name" do
+    it "should return the file definition's name" do
+      expect(subject.name).to eq :test
     end
   end
 
 
-  describe "#name" do
-    it "should return the file definition's name" do
-      expect(subject.name).to eq :test
+  describe "#fields" do
+    it "should return the file definition's fields" do
+      expect(subject.fields).to eq [:field1, :field2, :field3]
     end
   end
 

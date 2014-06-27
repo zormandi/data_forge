@@ -6,6 +6,12 @@ module DataForge
         CSV::CSVRecordFileDefinition.new(name).tap { |definition| definition.instance_eval &initialization_block }
       end
 
+
+
+      # Interface definition
+
+      attr_reader :name, :fields
+
     end
   end
 end

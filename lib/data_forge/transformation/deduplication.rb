@@ -3,11 +3,12 @@ module DataForge
     class Deduplication < TransformationBase
 
       class << self
-        def from_input(source, options)
-          # 1 source
-          # 1 target - if missing, same as source
-          # unique fields - may be single, may be array, if missing then use all fields of source
-          new File.reader_for(source), File.writer_for(options[:into]), [options[:using]]
+        def from_input(source, options = {})
+          reader = File.reader_for source
+          writer = (options.has_key? :into) ? File.writer_for(options[:into]) : File.writer_for(source)
+          unique_fields = (options.has_key? :using) ? Array(options[:using]) : reader.fields
+
+          new reader, writer, unique_fields
         end
       end
 

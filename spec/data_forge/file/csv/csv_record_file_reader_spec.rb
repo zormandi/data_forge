@@ -3,18 +3,41 @@ require 'spec_helper'
 describe DataForge::File::CSV::CSVRecordFileReader do
 
   let(:csv_file) { instance_double "CSV" }
+  let(:definition) { instance_double "DataForge::File::CSV::CSVRecordFileDefinition",
+                                     name: :test,
+                                     file_name: "test.csv",
+                                     field_names: [:field1, :field2],
+                                     delimiter: "delimiter",
+                                     quote: "quote",
+                                     encoding: "encoding",
+                                     has_header_row: true }
+
   subject { described_class.new definition }
+
+
+  describe "#definition" do
+    it "should return the file definition the writer was created for" do
+      expect(subject.definition).to eq definition
+    end
+  end
+
+
+  describe "#name" do
+    it "should return the file definition's name" do
+      expect(subject.name).to eq :test
+    end
+  end
+
+
+  describe "#fields" do
+    it "should return the file definition's fields" do
+      expect(subject.fields).to eq [:field1, :field2]
+    end
+  end
+
 
   describe "#each_record" do
     context "when the CSV file has a header row" do
-      let(:definition) { instance_double "DataForge::File::CSV::CSVRecordFileDefinition",
-                                         file_name: "test.csv",
-                                         field_names: [:field1, :field2],
-                                         delimiter: "delimiter",
-                                         quote: "quote",
-                                         encoding: "encoding",
-                                         has_header_row: true }
-
       it "should skip the header row and iterate through all records in the CSV file" do
         expect(CSV).to receive(:open).with("test.csv", {col_sep: "delimiter",
                                                         quote_char: "quote",
@@ -32,6 +55,7 @@ describe DataForge::File::CSV::CSVRecordFileReader do
 
     context "when the CSV file has no header row" do
       let(:definition) { instance_double "DataForge::File::CSV::CSVRecordFileDefinition",
+                                         name: :test,
                                          file_name: "test.csv",
                                          field_names: [:field1, :field2],
                                          delimiter: "delimiter",
