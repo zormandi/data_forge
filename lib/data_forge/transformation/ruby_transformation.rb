@@ -4,12 +4,9 @@ module DataForge
 
       class << self
         def from_input(source, options, &block)
-          if options.has_key? :into
-            targets = Array(options[:into])
-          else
-            targets = [source]
-          end
+          targets = (options.has_key? :into) ? Array(options[:into]) : [source]
           writers = targets.map { |target| File.writer_for target }
+
           new File.reader_for(source), writers, &block
         end
       end
