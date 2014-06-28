@@ -1,6 +1,3 @@
-require 'tmpdir'
-require 'csv'
-
 require 'data_forge/version'
 
 module DataForge

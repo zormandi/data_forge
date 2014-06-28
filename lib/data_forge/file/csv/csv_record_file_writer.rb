@@ -1,3 +1,5 @@
+require 'tmpdir'
+
 module DataForge
   module File
     module CSV

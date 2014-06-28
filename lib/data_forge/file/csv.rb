@@ -1,3 +1,5 @@
+require 'csv'
+
 module DataForge
   module File
     module CSV
