@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-
 require 'data_forge'
 
-DataForge.application.run ARGV
+DataForge::CLI::Main.new(ARGV.dup).execute!
