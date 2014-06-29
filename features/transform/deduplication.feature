@@ -1,7 +1,7 @@
 Feature: Deduplicating data in a file
 
 
-  Scenario: Singe file transformation
+  Scenario: Single file transformation
     Given a file named "command_script.rb" with:
     """
     file :items do
