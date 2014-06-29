@@ -1,5 +1,15 @@
 Feature: Deduplicating data in a file
 
+  The `deduplicate` keyword can be used to remove duplicate records from a file. Only the first occurence of each
+  duplicate record is kept.
+
+  Parameters:
+  - The source file to be deduplicated. This parameter is mandatory.
+  - into: The target file name. If no target file is specified then the source file is overwritten with the result
+  of the deduplication.
+  - using: The fields to be used to determine whether or not a record is a duplicate. If not specified then all
+  fields of the source file are used.
+
 
   Scenario: Single file transformation
     Given a file named "command_script.rb" with:
