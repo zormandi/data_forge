@@ -18,12 +18,16 @@ module DataForge
 
 
       def reader_for(definition_name)
+        raise "Unknown file reference '#{definition_name}'" unless @file_definitions.has_key? definition_name
+
         RecordFileReader.for @file_definitions[definition_name]
       end
 
 
 
       def writer_for(definition_name)
+        raise "Unknown file reference '#{definition_name}'" unless @file_definitions.has_key? definition_name
+
         RecordFileWriter.for @file_definitions[definition_name]
       end
 
