@@ -4,23 +4,41 @@
 
 DataForge is a data manipulation tool for transferring (and transforming) data between flat files and databases.
 
+## Requirements
+
+* Ruby >= 1.9
+
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'data_forge'
+``` sh
+gem 'data_forge'
+```
 
 And then execute:
 
-    $ bundle
+``` sh
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install data_forge
+``` sh
+$ gem install data_forge
+```
 
 ## Usage
 
-$ forge <command file>
+``` sh
+$ forge [options] <command script>
+```
+
+For information on how to use Data Forge please see the `features` directory, which has code examples on every working
+feature of the gem.
+
+For the complete documentation (coming with the 0.2 version) and the detailed development roadmap, please see the 
+[Wiki](wiki).
 
 ## Contributing
 
