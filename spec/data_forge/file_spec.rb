@@ -24,7 +24,6 @@ describe DataForge::File do
       expect(subject.reader_for :definition_name).to eq reader
     end
 
-
     it "should raise an error if there is no file registered by the specified name" do
       expect { subject.reader_for :definition_name }.to raise_error "Unknown file reference 'definition_name'"
     end
