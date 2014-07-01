@@ -11,20 +11,20 @@ describe DataForge::CLI::Main do
   subject { described_class.new args, STDIN, stdout, stderr, kernel }
 
   before do
-    allow(DataForge::CLI::Options).to receive(:parse).with(args, stdout).and_return options
+    allow(DataForge::CLI).to receive(:parse_options).with(args, stdout).and_return options
   end
 
 
   describe "#execute!" do
-    it "should execute the command file specified in the options" do
-      options.command_file = "command_file.rb"
+    it "should execute the command script specified in the options" do
+      options.command_script = "command_script.rb"
 
-      expect(subject).to receive(:load).with("command_file.rb")
+      expect(subject).to receive(:load).with("command_script.rb")
 
       subject.execute!
     end
 
-    it "should not execute the command file if the options direct to stop execution" do
+    it "should not execute the command script if the options direct to stop execution" do
       options.execute = false
 
       expect(subject).not_to receive(:load)

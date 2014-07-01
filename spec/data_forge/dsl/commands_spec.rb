@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe DataForge::DSL do
+describe DataForge::DSL::Commands do
 
-  let(:dsl_object) { Object.new.tap { |object| object.extend DataForge::DSL } }
+  let(:dsl_object) { Object.new.tap { |object| object.extend DataForge::DSL::Commands } }
   let(:block) { lambda {} }
 
   describe "#file" do

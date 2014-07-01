@@ -9,8 +9,8 @@ module DataForge
 
 
       def execute!
-        options = Options.parse @argv, @stdout
-        load options.command_file if options.execute
+        options = CLI.parse_options @argv, @stdout
+        load options.command_script if options.execute
       rescue Exception => e
         @stderr.puts "ERROR: " + e.message
         @kernel.exit 1

@@ -4,7 +4,7 @@ module DataForge
       class CSVRecordFileDefinition
 
         class << self
-          include DataForge::AttributeDSL
+          include DataForge::DSL::Attributes
         end
 
         attr_reader :name, :fields

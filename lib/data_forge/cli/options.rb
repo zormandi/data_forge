@@ -38,9 +38,9 @@ module DataForge
         end.parse!
 
         if options.execute
-          raise "No command file specified" if args.empty?
-          raise "More than one command file specified" unless args.size == 1
-          options.command_file = args.first
+          raise "No command script specified" if args.empty?
+          raise "More than one command script specified" unless args.size == 1
+          options.command_script = args.first
         end
 
         options
@@ -48,7 +48,7 @@ module DataForge
 
 
 
-      attr_accessor :command_file, :execute, :user_params
+      attr_accessor :command_script, :execute, :user_params
 
 
 

@@ -6,19 +6,19 @@ describe DataForge::CLI::Options do
   subject { DataForge::CLI::Options }
 
   describe ".parse" do
-    context "when parsing the command file parameter" do
-      it "should accept a single command file parameter" do
-        options = subject.parse(%w[command_file.rb])
+    context "when parsing the command script parameter" do
+      it "should accept a single command script parameter" do
+        options = subject.parse(%w[command_script.rb])
 
-        expect(options.command_file).to eq "command_file.rb"
+        expect(options.command_script).to eq "command_script.rb"
       end
 
-      it "should raise an error if no command file is specified" do
-        expect { subject.parse(%w[]) }.to raise_error "No command file specified"
+      it "should raise an error if no command script is specified" do
+        expect { subject.parse(%w[]) }.to raise_error "No command script specified"
       end
 
-      it "should raise an error if there is more than one command file specified" do
-        expect { subject.parse(%w[command_file1.rb command_file2.rb]) }.to raise_error "More than one command file specified"
+      it "should raise an error if there is more than one command script specified" do
+        expect { subject.parse(%w[command_script1.rb command_script2.rb]) }.to raise_error "More than one command script specified"
       end
     end
 
@@ -43,13 +43,13 @@ describe DataForge::CLI::Options do
 
     context "when parsing user-defined parameters" do
       it "should accept a name-value pair as a parameter with the -U switch" do
-        options = subject.parse(%w[-Ucustomer=test command_file.rb])
+        options = subject.parse(%w[-Ucustomer=test command_script.rb])
 
         expect(options.user_params).to eq(customer: "test")
       end
 
       it "should accept multiple user-defined parameters" do
-        options = subject.parse(%w[-Ucustomer=test -Udata_file=items.csv command_file.rb])
+        options = subject.parse(%w[-Ucustomer=test -Udata_file=items.csv command_script.rb])
 
         expect(options.user_params).to eq(customer: "test", data_file: "items.csv")
       end
