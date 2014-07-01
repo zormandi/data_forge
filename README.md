@@ -38,7 +38,7 @@ For information on how to use Data Forge please see the `features` directory, wh
 feature of the gem.
 
 For the complete documentation (coming with the 0.2 version) and the detailed development roadmap, please see the 
-[Wiki](/wiki).
+[Wiki](https://github.com/zormandi/data_forge/wiki).
 
 ## Contributing
 
