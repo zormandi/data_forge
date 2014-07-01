@@ -12,7 +12,7 @@ DataForge is a data manipulation tool for transferring (and transforming) data b
 
 Add this line to your application's Gemfile:
 
-``` sh
+``` ruby
 gem 'data_forge'
 ```
 
