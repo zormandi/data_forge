@@ -54,6 +54,7 @@ module DataForge
           encoding definition.encoding
           has_header_row definition.has_header_row
 
+          @fields.clear
           definition.fields.each { |name, type| field name, type }
         end
 

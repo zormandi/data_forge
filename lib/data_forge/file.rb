@@ -17,7 +17,7 @@ module DataForge
 
       def register_file_definition(name, options, &initialization_block)
         @file_definitions[name] = if options[:like]
-                                    File::RecordFileDefinition.from_existing name, definition(options[:like]), &initialization_block
+                                    File::RecordFileDefinition.from_existing definition(options[:like]), name, &initialization_block
                                   else
                                     File::RecordFileDefinition.from_input name, &initialization_block
                                   end

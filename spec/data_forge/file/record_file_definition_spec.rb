@@ -28,13 +28,13 @@ describe DataForge::File::RecordFileDefinition do
 
 
   describe ".from_existing" do
-    it "should copy the specified file definition and initialize it" do
+    it "should copy the specified file definition and customize it with the provided block" do
       source_definition = instance_double "DataForge::File::CSV::CSVRecordFileDefinition"
 
       expect(definition).to receive(:copy).with(source_definition).ordered
       expect(definition).to receive(:instance_eval) { |&block| expect(block).to be initializer_block }.ordered
 
-      expect(subject.from_existing :test, source_definition, &initializer_block).to eq definition
+      expect(subject.from_existing source_definition, :test, &initializer_block).to eq definition
     end
   end
 

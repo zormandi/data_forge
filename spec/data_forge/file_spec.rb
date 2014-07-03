@@ -30,7 +30,7 @@ describe DataForge::File do
         subject.register_file_definition :source_definition, {}
 
         expect(DataForge::File::RecordFileDefinition).to receive(:from_existing).
-                                                           with(:definition_name, subject.file_definitions[:source_definition]) { |&block| expect(block).to eq initializer_block }.
+                                                           with(subject.file_definitions[:source_definition], :definition_name) { |&block| expect(block).to eq initializer_block }.
                                                            and_return definition
 
         subject.register_file_definition :definition_name, like: :source_definition, &initializer_block
