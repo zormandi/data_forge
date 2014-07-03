@@ -36,8 +36,25 @@ module DataForge
 
 
 
+        def without_field(name)
+          @fields.delete name
+        end
+
+
+
         def field_names
           @fields.keys
+        end
+
+
+
+        def copy(definition)
+          delimiter definition.delimiter
+          quote definition.quote
+          encoding definition.encoding
+          has_header_row definition.has_header_row
+
+          definition.fields.each { |name, type| field name, type }
         end
 
       end

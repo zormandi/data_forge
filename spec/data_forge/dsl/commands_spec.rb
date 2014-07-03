@@ -7,9 +7,16 @@ describe DataForge::DSL::Commands do
 
   describe "#file" do
     it "should register a file descriptor" do
-      expect(DataForge::File).to receive(:register_file_definition).with(:name) { |&blk| expect(blk).to be block }
+      expect(DataForge::File).to receive(:register_file_definition).with(:name, {}) { |&blk| expect(blk).to be block }
 
       dsl_object.file :name, &block
+    end
+
+    it "should pass along any options received" do
+      options = {like: :other_definition}
+      expect(DataForge::File).to receive(:register_file_definition).with(:name, options) { |&blk| expect(blk).to be block }
+
+      dsl_object.file :name, options, &block
     end
   end
 

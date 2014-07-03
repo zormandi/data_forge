@@ -11,24 +11,38 @@ module DataForge
 
     class << self
 
-      def register_file_definition(name, &initialization_block)
-        @file_definitions[name] = File::RecordFileDefinition.from_input name, &initialization_block
+      attr_reader :file_definitions
+
+
+
+      def register_file_definition(name, options, &initialization_block)
+        @file_definitions[name] = if options[:like]
+                                    File::RecordFileDefinition.from_copy definition(options[:like]), name, &initialization_block
+                                  else
+                                    File::RecordFileDefinition.from_input name, &initialization_block
+                                  end
       end
 
 
 
       def reader_for(definition_name)
-        raise "Unknown file reference '#{definition_name}'" unless @file_definitions.has_key? definition_name
-
-        RecordFileReader.for @file_definitions[definition_name]
+        RecordFileReader.for definition definition_name
       end
 
 
 
       def writer_for(definition_name)
-        raise "Unknown file reference '#{definition_name}'" unless @file_definitions.has_key? definition_name
+        RecordFileWriter.for definition definition_name
+      end
 
-        RecordFileWriter.for @file_definitions[definition_name]
+
+
+      private
+
+      def definition(name)
+        raise "Unknown file reference '#{name}'" unless file_definitions.has_key? name
+
+        file_definitions[name]
       end
 
     end

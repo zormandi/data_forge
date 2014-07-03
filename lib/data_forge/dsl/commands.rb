@@ -2,8 +2,8 @@ module DataForge
   module DSL
     module Commands
 
-      def file(name, &initialization_block)
-        File.register_file_definition name, &initialization_block
+      def file(name, options = {}, &initialization_block)
+        File.register_file_definition name, options, &initialization_block
       end
 
 

@@ -28,6 +28,18 @@ describe DataForge::File::CSV::CSVRecordFileDefinition do
   end
 
 
+  describe "#without_field" do
+    it "should remove a registered field" do
+      subject.field :field1
+      subject.field :field2
+
+      subject.without_field :field1
+
+      expect(subject.fields).to eq(field2: String)
+    end
+  end
+
+
   describe "#fields" do
     it "should return an empty Hash if no fields are defined" do
       expect(subject.fields).to eq({})
@@ -91,6 +103,28 @@ describe DataForge::File::CSV::CSVRecordFileDefinition do
 
       subject.separator "|"
       expect(subject.delimiter).to eq "|"
+    end
+  end
+
+
+  describe "#copy" do
+    it "should copy the non-identifying attributes of the specified definition" do
+      definition = described_class.new :def1
+      definition.file_name "first.csv"
+      definition.delimiter ";"
+      definition.quote "'"
+      definition.encoding "Latin2"
+      definition.field :f1
+      definition.field :f2
+
+      subject.copy definition
+
+      expect(subject.name).to eq :definition_name
+      expect(subject.file_name).to eq "definition_name.csv"
+      expect(subject.delimiter).to eq ";"
+      expect(subject.quote).to eq "'"
+      expect(subject.encoding).to eq "Latin2"
+      expect(subject.field_names).to eq [:f1, :f2]
     end
   end
 
