@@ -29,7 +29,7 @@ module DataForge
 
       # Interface definition
 
-      attr_reader :name, :fields
+      attr_reader :name, :file_name, :fields
 
 
 
