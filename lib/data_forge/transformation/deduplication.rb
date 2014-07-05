@@ -3,6 +3,7 @@ module DataForge
     class Deduplication < TransformationBase
 
       class << self
+
         def from_input(source_name, options = {})
           reader = File.reader_for source_name
           writer = File.writer_for(options.fetch :into, source_name)
@@ -10,6 +11,7 @@ module DataForge
 
           new reader, writer, unique_fields
         end
+
       end
 
 
