@@ -1,5 +1,6 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'data_forge'
+require_relative 'support/helpers/file_definition_helper'
 require_relative 'support/helpers/record_reader_helper'
 require_relative 'support/helpers/record_writer_helper'
 
@@ -12,6 +13,7 @@ RSpec.configure do |config|
     mocks.verify_doubled_constant_names = true
   end
 
+  config.include RSpec::Helpers::FileDefinitionHelper
   config.include RSpec::Helpers::RecordReaderHelper
   config.include RSpec::Helpers::RecordWriterHelper
 end

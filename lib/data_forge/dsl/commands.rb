@@ -18,6 +18,12 @@ module DataForge
         Transformation::Deduplication.from_input(source, options).execute
       end
 
+
+
+      def trash(*names)
+        File::Remover.from_input(names).execute
+      end
+
     end
   end
 end

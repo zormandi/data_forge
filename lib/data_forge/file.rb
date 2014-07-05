@@ -5,17 +5,14 @@ module DataForge
     autoload :RecordFileDefinition, 'data_forge/file/record_file_definition'
     autoload :RecordFileReader, 'data_forge/file/record_file_reader'
     autoload :RecordFileWriter, 'data_forge/file/record_file_writer'
+    autoload :Remover, 'data_forge/file/remover'
 
 
     @file_definitions = {}
 
     class << self
 
-      attr_reader :file_definitions
-
-
-
-      def register_file_definition(name, options, &initialization_block)
+      def register_file_definition(name, options = {}, &initialization_block)
         @file_definitions[name] = if options[:like]
                                     File::RecordFileDefinition.from_existing definition(options[:like]), name, &initialization_block
                                   else
@@ -37,14 +34,22 @@ module DataForge
 
 
 
-      private
-
       def definition(name)
-        raise "Unknown file reference '#{name}'" unless file_definitions.has_key? name
+        raise UnknownDefinitionError.new name unless @file_definitions.has_key? name
 
-        file_definitions[name]
+        @file_definitions[name]
       end
 
     end
+
+
+    class UnknownDefinitionError < StandardError
+
+      def initialize(definition_name)
+        super "Unknown file definition reference '#{definition_name}'"
+      end
+
+    end
+
   end
 end

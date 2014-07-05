@@ -20,27 +20,40 @@ describe DataForge::File do
 
         subject.register_file_definition :definition_name, {}, &initializer_block
 
-        expect(subject.file_definitions[:definition_name]).to eq definition
+        expect(subject.definition :definition_name).to eq definition
       end
     end
 
 
     context "with the :like option" do
       it "should copy the specified file definition" do
-        subject.register_file_definition :source_definition, {}
+        subject.register_file_definition :source_definition
 
         expect(DataForge::File::RecordFileDefinition).to receive(:from_existing).
-                                                           with(subject.file_definitions[:source_definition], :definition_name) { |&block| expect(block).to eq initializer_block }.
+                                                           with(subject.definition(:source_definition), :definition_name) { |&block| expect(block).to eq initializer_block }.
                                                            and_return definition
 
         subject.register_file_definition :definition_name, like: :source_definition, &initializer_block
 
-        expect(subject.file_definitions[:definition_name]).to eq definition
+        expect(subject.definition :definition_name).to eq definition
       end
     end
 
     it "should raise an error if an unknown definition is specified as source" do
-      expect { subject.register_file_definition :def2, like: :def1 }.to raise_error "Unknown file reference 'def1'"
+      expect { subject.register_file_definition :def2, like: :def1 }.to raise_error DataForge::File::UnknownDefinitionError
+    end
+  end
+
+
+  describe ".definition" do
+    it "should return the file definition registered by the specified name" do
+      subject.register_file_definition :definition_name
+
+      expect(subject.definition(:definition_name).name).to eq :definition_name
+    end
+
+    it "should raise an error if no file definition was registered by the specified name" do
+      expect { subject.definition :definition_name }.to raise_error DataForge::File::UnknownDefinitionError, "Unknown file definition reference 'definition_name'"
     end
   end
 
@@ -53,7 +66,7 @@ describe DataForge::File do
     end
 
     it "should return a record reader for the file with the specified name" do
-      subject.register_file_definition :definition_name, {}
+      subject.register_file_definition :definition_name
 
       expect(DataForge::File::RecordFileReader).to receive(:for).with(definition).and_return reader
 
@@ -61,7 +74,7 @@ describe DataForge::File do
     end
 
     it "should raise an error if there is no file registered by the specified name" do
-      expect { subject.reader_for :definition_name }.to raise_error "Unknown file reference 'definition_name'"
+      expect { subject.reader_for :definition_name }.to raise_error DataForge::File::UnknownDefinitionError
     end
   end
 
@@ -74,7 +87,7 @@ describe DataForge::File do
     end
 
     it "should return a record writer for the file with the specified name" do
-      subject.register_file_definition :definition_name, {}
+      subject.register_file_definition :definition_name
 
       expect(DataForge::File::RecordFileWriter).to receive(:for).with(definition).and_return writer
 
@@ -82,7 +95,7 @@ describe DataForge::File do
     end
 
     it "should raise an error if there is no file registered by the specified name" do
-      expect { subject.writer_for :definition_name }.to raise_error "Unknown file reference 'definition_name'"
+      expect { subject.writer_for :definition_name }.to raise_error DataForge::File::UnknownDefinitionError
     end
   end
 
