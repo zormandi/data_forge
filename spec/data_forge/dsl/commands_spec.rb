@@ -35,6 +35,20 @@ describe DataForge::DSL::Commands do
   end
 
 
+  describe "#filter" do
+    it "should create a filter transformation and execute it" do
+      transformation = instance_double "DataForge::Transformation::Filter"
+
+      allow(DataForge::Transformation::Filter).to receive(:from_input)
+                                                  .with(:source, into: :target) { |&blk| expect(blk).to be block }
+                                                  .and_return(transformation)
+      expect(transformation).to receive(:execute)
+
+      subject.filter :source, into: :target, &block
+    end
+  end
+
+
   describe "#deduplicate" do
     it "should create a deduplication transformation and execute it" do
       deduplication = instance_double "DataForge::Transformation::Deduplication"
