@@ -4,7 +4,10 @@ Feature: Trash files
 
 
   Scenario: Successful execution
-    Given a file named "command_script.rb" with:
+    Given an empty file named "one.csv"
+    And an empty file named "two.csv"
+    And an empty file named "three.csv"
+    And a file named "command_script.rb" with:
     """
     file :one
     file :two
@@ -12,9 +15,6 @@ Feature: Trash files
 
     trash :one, :three
     """
-    And an empty file named "one.csv"
-    And an empty file named "two.csv"
-    And an empty file named "three.csv"
     When I run `forge command_script.rb`
     Then the exit status should be 0
     And the following files should exist:
