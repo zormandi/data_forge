@@ -1,4 +1,4 @@
-Feature: Filter records of a file
+Feature: Filtering records of a file
 
   The `filter` command is useful for discarding records from a file that match the given criteria.
 

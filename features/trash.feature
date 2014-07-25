@@ -1,4 +1,4 @@
-Feature: Trash files
+Feature: Deleting files
 
   The `trash` command can be used to delete files belonging to file definitions that are no longer useful.
 
