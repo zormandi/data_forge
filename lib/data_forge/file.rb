@@ -1,6 +1,7 @@
 module DataForge
   module File
 
+    autoload :Archiver, 'data_forge/file/archiver'
     autoload :CSV, 'data_forge/file/csv'
     autoload :RecordFileDefinition, 'data_forge/file/record_file_definition'
     autoload :RecordFileReader, 'data_forge/file/record_file_reader'

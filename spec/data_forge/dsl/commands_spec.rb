@@ -61,10 +61,36 @@ describe DataForge::DSL::Commands do
   end
 
 
+  describe "#archive" do
+    let(:archiver) { instance_double "DataForge::File::Archiver" }
+
+    context "with one file" do
+      it "should create a file archiver with all options and the specified file definition as an array" do
+        allow(DataForge::File::Archiver).to receive(:from_input).with([:file1], {to: "some/dir"}).and_return(archiver)
+
+        expect(archiver).to receive(:execute)
+
+        subject.archive :file1, to: "some/dir"
+      end
+    end
+
+    context "with multiple files" do
+      it "should create a file remover with all specified file definitions" do
+        allow(DataForge::File::Archiver).to receive(:from_input).with([:file1, :file2], {to: "some/dir"}).and_return(archiver)
+
+        expect(archiver).to receive(:execute)
+
+        subject.archive :file1, :file2, to: "some/dir"
+      end
+    end
+  end
+
+
   describe "#trash" do
-    context "with one argument" do
-      it "should create a file remover for the specified file definition" do
-        remover = instance_double "DataForge::File::Remover"
+    let(:remover) { instance_double "DataForge::File::Remover" }
+
+    context "with one file" do
+      it "should create a file remover with the specified file definition as an array" do
         allow(DataForge::File::Remover).to receive(:from_input).with([:file1]).and_return(remover)
 
         expect(remover).to receive(:execute)
@@ -73,7 +99,7 @@ describe DataForge::DSL::Commands do
       end
     end
 
-    context "with multiple arguments" do
+    context "with multiple files" do
       it "should create a file remover with all specified file definitions" do
         remover = instance_double "DataForge::File::Remover"
         allow(DataForge::File::Remover).to receive(:from_input).with([:file1, :file2]).and_return(remover)
@@ -84,4 +110,5 @@ describe DataForge::DSL::Commands do
       end
     end
   end
+
 end

@@ -6,6 +6,7 @@ module DataForge
   autoload :DSL, 'data_forge/dsl'
   autoload :File, 'data_forge/file'
   autoload :Transformation, 'data_forge/transformation'
+  autoload :ValidOptions, 'data_forge/valid_options'
 
 end
 

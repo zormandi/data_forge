@@ -26,6 +26,12 @@ module DataForge
 
 
 
+      def archive(*names, options)
+        File::Archiver.from_input(names, options).execute
+      end
+
+
+
       def trash(*names)
         File::Remover.from_input(names).execute
       end
