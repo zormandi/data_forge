@@ -17,6 +17,11 @@ module DataForge
 
         attr_reader :archive_directory
 
+
+
+        def execute(file_names)
+        end
+
       end
     end
   end

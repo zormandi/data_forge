@@ -5,7 +5,7 @@ module DataForge
       class << self
 
         def from_input(definition_names)
-          raise "No file definitions specified for `trash` command" if definition_names.empty?
+          raise "No files specified for `trash` command" if definition_names.empty?
 
           new definition_names.map { |name| File.definition name }
         end

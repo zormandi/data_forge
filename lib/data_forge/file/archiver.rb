@@ -9,7 +9,7 @@ module DataForge
 
 
       def self.from_input(definition_names, options)
-        raise "No file definitions specified for `archive` command" if definition_names.empty?
+        raise "No files specified for `archive` command" if definition_names.empty?
 
         file_definitions = definition_names.map { |name| File.definition name }
         strategy = Strategy.from_options options
