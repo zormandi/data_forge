@@ -4,43 +4,47 @@ module DataForge
   module File
     class Archiver
 
-      autoload :Strategy, 'data_forge/file/archiver/strategy'
+      autoload :CompressionStrategy, 'data_forge/file/archiver/compression_strategy'
+      autoload :TransportStrategy, 'data_forge/file/archiver/transport_strategy'
 
 
 
       def self.from_input(definition_names, options)
         raise "No files specified for `archive` command" if definition_names.empty?
+        files_to_archive = definition_names.map { |name| File.definition(name).file_name }
 
-        file_definitions = definition_names.map { |name| File.definition name }
-        strategy = Strategy.from_options options
-        new file_definitions, strategy
+        valid_options = ValidOptions.new "archive", to: nil, as: files_to_archive.first, compress_with: :nothing
+        valid_options.import options
+
+        new files_to_archive,
+            CompressionStrategy.from_options(valid_options[:compress_with], valid_options[:as]),
+            TransportStrategy.from_destination_uri(valid_options[:to])
       end
 
 
 
-      def initialize(definitions, strategy)
-        @definitions, @strategy = definitions, strategy
+      def initialize(files_to_archive, compression_strategy, transport_strategy)
+        @files_to_archive, @compression_strategy, @transport_strategy = files_to_archive, compression_strategy, transport_strategy
       end
 
 
 
       def execute
-        ensure_archive_directory_exists
-        execute_strategy
+        execute_transport_strategy_on execute_compression_strategy_on @files_to_archive
       end
 
 
 
       private
 
-      def ensure_archive_directory_exists
-        FileUtils.mkdir_p @strategy.archive_directory
+      def execute_compression_strategy_on(file_names)
+        @compression_strategy.execute file_names
       end
 
 
 
-      def execute_strategy
-        @strategy.execute @definitions.map { |definition| definition.file_name }
+      def execute_transport_strategy_on(archive_file)
+        @transport_strategy.execute archive_file
       end
 
     end
