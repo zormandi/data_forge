@@ -14,11 +14,11 @@ describe DataForge::CLI::Options do
       end
 
       it "should raise an error if no command script is specified" do
-        expect { subject.parse(%w[]) }.to raise_error "No command script specified"
+        expect { subject.parse(%w[]) }.to raise_error OptionParser::MissingArgument, "missing argument: No command script specified"
       end
 
       it "should raise an error if there is more than one command script specified" do
-        expect { subject.parse(%w[command_script1.rb command_script2.rb]) }.to raise_error "More than one command script specified"
+        expect { subject.parse(%w[command_script1.rb command_script2.rb]) }.to raise_error "needless argument: More than one command script specified"
       end
     end
 

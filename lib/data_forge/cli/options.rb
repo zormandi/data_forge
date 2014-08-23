@@ -38,8 +38,8 @@ module DataForge
         end.parse!
 
         if options.execute
-          raise "No command script specified" if args.empty?
-          raise "More than one command script specified" unless args.size == 1
+          raise OptionParser::MissingArgument, "No command script specified" if args.empty?
+          raise OptionParser::NeedlessArgument, "More than one command script specified" unless args.size == 1
           options.command_script = args.first
         end
 

@@ -10,35 +10,50 @@ describe DataForge::CLI::Main do
 
   subject { described_class.new args, STDIN, stdout, stderr, kernel }
 
-  before do
-    allow(DataForge::CLI).to receive(:parse_options).with(args, stdout).and_return options
-  end
-
-
   describe "#execute!" do
-    it "should execute the command script specified in the options" do
-      options.command_script = "command_script.rb"
+    context "when there is no error" do
+      before do
+        allow(DataForge::CLI).to receive(:parse_options).with(args, stdout).and_return options
+      end
 
-      expect(subject).to receive(:load).with("command_script.rb")
+      it "should execute the command script specified in the options" do
+        options.command_script = "command_script.rb"
 
-      subject.execute!
+        expect(subject).to receive(:load).with("command_script.rb")
+
+        subject.execute!
+      end
+
+      it "should not execute the command script if the options direct to stop execution" do
+        options.execute = false
+
+        expect(subject).not_to receive(:load)
+
+        subject.execute!
+      end
     end
 
-    it "should not execute the command script if the options direct to stop execution" do
-      options.execute = false
 
-      expect(subject).not_to receive(:load)
+    context "when an error occurs" do
+      it "should output an error message in case of an error on the command line" do
+        allow(DataForge::CLI).to receive(:parse_options).with(args, stdout).and_raise OptionParser::ParseError, "Invalid options"
 
-      subject.execute!
-    end
+        expect(stderr).to receive(:puts).with /^ERROR:.*Invalid options.*$/
+        expect(kernel).to receive(:exit).with 1
 
-    it "should output an error message in case of an error" do
-      allow(subject).to receive(:load).and_raise "Error message"
+        subject.execute!
+      end
 
-      expect(stderr).to receive(:puts).with "ERROR: Error message"
-      expect(kernel).to receive(:exit).with 1
+      it "should output an error message and a stack trace in case of a program error" do
+        allow(DataForge::CLI).to receive(:parse_options).with(args, stdout).and_return options
+        allow(subject).to receive(:load).and_raise StandardError.new("Error message").tap { |error| error.set_backtrace "stack trace" }
 
-      subject.execute!
+        expect(stderr).to receive(:puts).with "ERROR: Error message"
+        expect(stderr).to receive(:puts).with ["stack trace"]
+        expect(kernel).to receive(:exit).with 1
+
+        subject.execute!
+      end
     end
   end
 
